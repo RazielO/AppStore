@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="store.controllers.user.AddCardController"
+          hgap="10" vgap="10">
+
+    <padding>
+        <Insets topRightBottomLeft="20"/>
+    </padding>
+
+    <Label prefWidth="150.0" text="Number" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="txtNumber">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="CVV" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="txtCvv">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Name" GridPane.rowIndex="2" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="txtName">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Last name" GridPane.rowIndex="3" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="txtLastName">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Expiration Date" GridPane.rowIndex="4" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+
+    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <ComboBox fx:id="cmbMonth" prefWidth="120" prefHeight="30.0"/>
+        <ComboBox fx:id="cmbYear" prefWidth="120" prefHeight="30.0"/>
+    </HBox>
+
+    <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">
+        <Button text="Accept" prefWidth="120" fx:id="btnAccept">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+
+        <Button text="Cancel" prefWidth="120" fx:id="btnCancel">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+    </HBox>
+
+</GridPane>

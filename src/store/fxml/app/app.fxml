@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.control.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="store.controllers.app.AppController"
+      spacing="10">
+
+    <padding>
+        <Insets topRightBottomLeft="15"/>
+    </padding>
+
+    <ScrollPane fitToWidth="true">
+        <VBox>
+            <HBox spacing="100">
+                <ImageView fx:id="image" preserveRatio="true" fitHeight="200" fitWidth="200">
+                    <image>
+                        <Image url="@/store/controllers/resources/spotify.png"/>
+                    </image>
+                </ImageView>
+
+                <VBox spacing="10">
+                    <Label text="Name">
+                        <font>
+                            <Font name="Arial Black" size="24"/>
+                        </font>
+                    </Label>
+                    <HBox spacing="10">
+                        <Label text="Publisher">
+                            <font>
+                                <Font name="Arial" size="14"/>
+                            </font>
+                        </Label>
+
+                        <Label text="Category">
+                            <font>
+                                <Font name="Arial" size="14"/>
+                            </font>
+                        </Label>
+                    </HBox>
+
+                    <Rating orientation="HORIZONTAL" rating="4.5" disable="true" partialRating="true"/>
+
+                    <Label text="Downloads">
+                        <font>
+                            <Font size="10" name="Arial"/>
+                        </font>
+                    </Label>
+
+                    <Label text="Price">
+                        <font>
+                            <Font name="Arial" size="18"/>
+                        </font>
+                    </Label>
+
+                    <Button text="Buy">
+                        <font>
+                            <Font name="Arial" size="16"/>
+                        </font>
+                    </Button>
+                </VBox>
+
+                <VBox spacing="10" alignment="CENTER">
+                    <Label text="size"/>
+                    <Label text="version"/>
+                    <Label text="compatibility"/>
+                </VBox>
+
+                <VBox spacing="10" alignment="CENTER">
+                    <Label text="language 1"/>
+                    <Label text="language 2"/>
+                    <Label text="language 3"/>
+                    <Label text="language 4"/>
+                    <Label text="language 5"/>
+                </VBox>
+            </HBox>
+
+
+            <Label text="Features"/>
+            <TextArea prefHeight="150" disable="true" text="Features"/>
+            <Label text="Description"/>
+            <TextArea prefHeight="300" disable="true" text="Description"/>
+
+            <VBox prefHeight="375">
+                <Label text="Screenshots">
+                    <font>
+                        <Font name="Arial Black" size="18"/>
+                    </font>
+                </Label>
+                <ScrollPane nodeOrientation="LEFT_TO_RIGHT" fitToHeight="true" vbarPolicy="NEVER">
+                    <HBox spacing="5">
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s1.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s2.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s3.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s4.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s5.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s6.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s7.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s8.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s9.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView preserveRatio="true" fitHeight="350">
+                            <image>
+                                <Image url="@/store/controllers/resources/screen/s10.png"/>
+                            </image>
+                        </ImageView>
+                    </HBox>
+                </ScrollPane>
+            </VBox>
+
+            <ScrollPane>
+                <padding>
+                    <Insets top="5" bottom="5" left="25" right="25"/>
+                </padding>
+                <VBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                    <HBox spacing="20">
+                        <VBox spacing="10" alignment="CENTER">
+                            <Label text="Username"/>
+                            <Rating orientation="HORIZONTAL" disable="true" partialRating="true" rating="4.35"/>
+                            <Label text="Date"/>
+                        </VBox>
+                        <TextArea text="Comment" editable="false"/>
+                    </HBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </ScrollPane>
+</VBox>

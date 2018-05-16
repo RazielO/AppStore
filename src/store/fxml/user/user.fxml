@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.PasswordField?>
+<GridPane alignment="CENTER" hgap="10" vgap="25" xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="store.controllers.user.UserController">
+
+    <VBox GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" GridPane.rowSpan="8" spacing="10" alignment="CENTER">
+        <Label fx:id="lblUsername" text="Username">
+            <font>
+                <Font name="Arial Black" size="24" />
+            </font>
+        </Label>
+
+        <ImageView fx:id="imgProfilePhoto" fitHeight="200" fitWidth="200" GridPane.rowSpan="5"/>
+
+        <Button fx:id="btnChangeImage" prefWidth="170" text="Change image" visible="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Button>
+
+        <Button fx:id="btnEdit" prefWidth="170" text="Edit User">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Button>
+    </VBox>
+
+
+    <Label prefWidth="200" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="0">
+        <Label prefHeight="2" prefWidth="100" text="Name">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <TextField fx:id="txtName" prefHeight="2" prefWidth="350" text="Name" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1">
+        <Label prefHeight="2" prefWidth="100" text="Last name">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <TextField fx:id="txtLastName" prefHeight="2" prefWidth="350" text="Last name" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
+        <Label prefHeight="2" prefWidth="100" text="Email">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <TextField fx:id="txtEmail" prefHeight="2" prefWidth="350" text="Email" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <Label prefHeight="2" prefWidth="100" text="Birthday">
+            <font>
+                <Font name="Arial" size="18"/>
+            </font>
+        </Label>
+        <DatePicker fx:id="dpBirthday" prefWidth="350" editable="false"/>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4">
+        <Label prefHeight="2" prefWidth="100" text="Address">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <TextField fx:id="txtAddress" prefHeight="2" prefWidth="350" text="Address" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="5">
+        <Label prefHeight="2" prefWidth="100" text="Phone">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <TextField fx:id="txtPhone" prefHeight="2" prefWidth="350" text="Phone" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </TextField>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.columnSpan="2"
+          GridPane.rowIndex="6" visible="false" fx:id="hBox">
+        <Label prefHeight="2" prefWidth="100" text="Password">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Label>
+        <PasswordField fx:id="txtPassword" prefHeight="2" prefWidth="350" text="Phone" editable="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </PasswordField>
+    </HBox>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="4" GridPane.rowIndex="7">
+        <Button fx:id="btnCancel" prefWidth="170" text="Cancel" visible="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Button>
+
+        <Button fx:id="btnAccept" prefWidth="170" text="Accept" visible="false">
+            <font>
+                <Font name="Arial" size="18" />
+            </font>
+        </Button>
+    </HBox>
+</GridPane>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.Double?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.icons525.Icons525View?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" prefHeight="50"
+      fx:controller="store.controllers.menu.MenuController" spacing="10" >
+    <padding>
+        <Insets top="5" bottom="5"/>
+    </padding>
+
+    <Region HBox.hgrow="ALWAYS">
+        <maxWidth>
+            <Double fx:constant="MAX_VALUE"/>
+        </maxWidth>
+    </Region>
+
+    <HBox alignment="CENTER" spacing="10">
+        <Button fx:id="btnCategories" text="Categories" prefHeight="50"/>
+        <Separator orientation="VERTICAL" prefHeight="50"/>
+        <Button fx:id="btnTopApps" text="Top Apps" prefHeight="50"/>
+        <Separator orientation="VERTICAL" prefHeight="50"/>
+        <Button fx:id="btnFeatured" text="Featured" prefHeight="50"/>
+        <Separator orientation="VERTICAL" prefHeight="50"/>
+        <Button fx:id="btnPurchased" text="Purchased" prefHeight="50"/>
+    </HBox>
+
+    <Region HBox.hgrow="ALWAYS">
+        <maxWidth>
+            <Double fx:constant="MAX_VALUE"/>
+        </maxWidth>
+    </Region>
+
+    <HBox alignment="CENTER" spacing="5">
+        <TextField fx:id="txtSearchBar" prefHeight="50"/>
+        <Button fx:id="btnSearch" prefHeight="50">
+            <graphic>
+                <FontAwesomeIconView glyphName="SEARCH" glyphSize="15"/>
+            </graphic>
+        </Button>
+    </HBox>
+
+    <Region HBox.hgrow="ALWAYS">
+        <maxWidth>
+            <Double fx:constant="MAX_VALUE"/>
+        </maxWidth>
+    </Region>
+
+    <Button fx:id="btnHome" prefHeight="50">
+        <graphic>
+            <Icons525View glyphName="HOME" glyphSize="15"/>
+        </graphic>
+    </Button>
+
+    <Button fx:id="btnUser" text="User" prefHeight="50"/>
+
+    <MenuButton fx:id="btnMenu" prefHeight="50">
+        <graphic>
+            <Icons525View glyphName="MENU" glyphSize="15"/>
+        </graphic>
+    </MenuButton>
+
+    <Region HBox.hgrow="ALWAYS">
+        <maxWidth>
+            <Double fx:constant="MAX_VALUE"/>
+        </maxWidth>
+    </Region>
+</HBox>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="store.controllers.user.SignUpController"
+          hgap="10" vgap="25">
+
+    <padding>
+        <Insets topRightBottomLeft="20"/>
+    </padding>
+
+    <Label prefWidth="150.0" text="Username" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="txtUsername">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Password" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <PasswordField prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="txtPassword">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </PasswordField>
+
+    <Label prefWidth="150.0" text="Name" GridPane.rowIndex="2" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1" fx:id="txtName">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Last name" GridPane.rowIndex="3" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="3" GridPane.columnIndex="1" fx:id="txtLastName">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Address" GridPane.rowIndex="4" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="txtAddress">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Phone" GridPane.rowIndex="5" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="5" GridPane.columnIndex="1" fx:id="txtPhone">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label prefWidth="150.0" text="Birthday" GridPane.rowIndex="6" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+
+    <DatePicker fx:id="dpDate" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+    <Label prefWidth="150.0" text="Email" GridPane.rowIndex="7" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="7" GridPane.columnIndex="1" fx:id="txtEmail">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <HBox spacing="10" GridPane.rowIndex="8" GridPane.columnIndex="1">
+        <Button text="Add Card" prefWidth="120" fx:id="btnCard">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+
+        <Button text="Add Picture" prefWidth="120" fx:id="btnPicture">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+    </HBox>
+
+    <HBox spacing="10" GridPane.rowIndex="9" GridPane.columnIndex="1">
+        <Button text="Accept" prefWidth="120" fx:id="btnAccept">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+
+        <Button text="Cancel" prefWidth="120" fx:id="btnCancel">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+    </HBox>
+
+</GridPane>

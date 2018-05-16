@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<GridPane vgap="25" hgap="25" alignment="CENTER"
+          xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="store.controllers.user.LoginController">
+
+    <padding>
+        <Insets topRightBottomLeft="25"/>
+    </padding>
+
+    <Label prefWidth="150.0" text="Username or email" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+    <TextField prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="txtUser">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </TextField>
+
+    <Label text="Password" prefWidth="150" GridPane.rowIndex="1" GridPane.columnIndex="0">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </Label>
+
+    <PasswordField prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="txtPassword" editable="true">
+        <font>
+            <Font name="Arial" size="16"/>
+        </font>
+    </PasswordField>
+
+    <HBox spacing="10" GridPane.rowIndex="2" GridPane.columnIndex="1">
+        <Button text="Login" prefWidth="120" fx:id="btnLogin">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+
+        <Button text="Sign Up" prefWidth="120" fx:id="btnSignUp">
+            <font>
+                <Font name="Arial" size="16"/>
+            </font>
+        </Button>
+    </HBox>
+</GridPane>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="store.controllers.category.CategoriesController" spacing="30" alignment="CENTER">
+
+    <padding>
+        <Insets top="10" bottom="10" right="30" left="30"/>
+    </padding>
+
+    <ScrollPane prefWidth="300">
+        <VBox alignment="CENTER">
+            <Label text="Games" alignment="CENTER">
+                <font>
+                    <Font size="24" name="Arial Black"/>
+                </font>
+            </Label>
+            <VBox fx:id="boxGames" alignment="CENTER"/>
+        </VBox>
+    </ScrollPane>
+
+    <ScrollPane prefWidth="300">
+        <VBox alignment="CENTER">
+            <Label text="Apps" alignment="CENTER">
+                <font>
+                    <Font size="24" name="Arial Black"/>
+                </font>
+            </Label>
+            <VBox fx:id="boxApps" alignment="CENTER"/>
+        </VBox>
+    </ScrollPane>
+
+</HBox>
