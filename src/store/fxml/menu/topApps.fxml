@@ -2,18 +2,20 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="store.controllers.menu.PurchasedController" alignment="CENTER">
-
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="store.controllers.menu.TopAppsController" alignment="CENTER">
     <ScrollPane>
+
         <padding>
             <Insets topRightBottomLeft="10"/>
         </padding>
 
         <content>
-            <VBox fx:id="vBox" spacing="25"/>
+            <GridPane vgap="10" hgap="10" fx:id="gridPane"/>
         </content>
-    </ScrollPane>
 
+    </ScrollPane>
 </VBox>
+

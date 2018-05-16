@@ -21,7 +21,7 @@ public class SearchedController extends Controller implements Initializable
     @FXML
     GridPane gridPane;
 
-    static String search;
+    private static String search;
     private AppDAO appDAO = new AppDAO(MySQL.getConnection());
 
     @Override
