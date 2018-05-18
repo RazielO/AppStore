@@ -65,6 +65,8 @@ public class AddCategoryController extends Controller implements Initializable
                 category.setFile(file);
 
                 categoryDAO.insert(category);
+
+                closeStage();
             }
         }
     };

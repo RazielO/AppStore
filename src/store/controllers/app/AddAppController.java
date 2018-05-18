@@ -85,7 +85,7 @@ public class AddAppController extends Controller implements Initializable
                     Image image = new Image(file.toURI().toString());
                     Screenshot e = new Screenshot();
                     e.setScreenshot(image);
-
+                    e.setFile(file);
                     screenshots.add(e);
                 }
         }
@@ -99,7 +99,7 @@ public class AddAppController extends Controller implements Initializable
         }
         else if (event.getSource() == btnPublish)
         {
-            App app = new App();
+            App app;
 
             if (file == null)
                 alertMessage("Select a logo for this app", "Error", Alert.AlertType.ERROR, "Logo missing");
@@ -114,7 +114,9 @@ public class AddAppController extends Controller implements Initializable
                     alertMessage("Please, fill all the fields", "Error", Alert.AlertType.ERROR, "Empty fields");
                 else
                 {
-                    String features = txtFeature1.getText() + "\n" + txtFeature2 + "\n" + txtFeature3;
+                    String features = txtFeature1.getText() + "\n" + txtFeature2.getText() + "\n" + txtFeature3.getText();
+
+                    app = new App();
 
                     app.setVersion(txtVersion.getText());
                     app.setName(txtName.getText());
@@ -128,22 +130,29 @@ public class AddAppController extends Controller implements Initializable
                     app.setPublisher(txtPublisher.getText());
                     app.setLogoFile(file);
                     app.setScreenshotsFiles(list);
-                    app.setLanguages(appLanguages);
-                    app.setScreenshots(screenshots);
                     app.setLogo(logo);
                     app.setFeatures(features);
 
-                    appDAO.insert(app);
+                    if (appDAO.insert(app))
+                    {
 
-                    app = appDAO.fetch(app);
+                        app = appDAO.fetch(app);
 
-                    for (Screenshot screenshot : screenshots)
-                        appScreenshotDAO.insert(app, screenshot);
+                        System.out.println(app);
 
-                    for (Language language : appLanguages)
-                        appLanguageDAO.insert(app, language);
+                        for (Screenshot screenshot : screenshots)
+                        {
+                            appScreenshotDAO.insert(app, screenshot);
+                        }
 
-                    alertMessage("Thanks for publishing this app", "Publish", Alert.AlertType.INFORMATION, "Your app is published now");
+                        for (Language language : appLanguages)
+                        {
+                            appLanguageDAO.insert(app, language);
+                        }
+
+                        alertMessage("Thanks for publishing this app", "Publish", Alert.AlertType.INFORMATION, "Your app is published now");
+                        changeScene("store/fxml/home/home.fxml");
+                    }
                 }
             }
         }
@@ -151,8 +160,11 @@ public class AddAppController extends Controller implements Initializable
             changeScene("store/fxml/home/home.fxml");
         else if (event.getSource() == btnLanguage)
         {
-            lblLanguages.setText(lblLanguages.getText() + "\n" + cmbLanguages.getSelectionModel().getSelectedItem());
-            appLanguages.add(languageDAO.search(String.valueOf(cmbLanguages.getSelectionModel().getSelectedItem())));
+            if (cmbCategory.getSelectionModel().getSelectedItem() != null)
+            {
+                lblLanguages.setText(lblLanguages.getText() + "\n" + cmbLanguages.getSelectionModel().getSelectedItem());
+                appLanguages.add(languageDAO.search(String.valueOf(cmbLanguages.getSelectionModel().getSelectedItem())));
+            }
         }
     };
 }

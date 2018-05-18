@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.Rating;
+import store.controllers.app.AppController;
 import store.controllers.menu.MenuController;
 import store.database.models.app.App;
 import store.database.models.dao.app.AppDAO;
@@ -141,7 +142,11 @@ public class Controller
 
                 vBox.getChildren().addAll(imageView, lblId, lblName, lblPublisher, rating, lblPrice, btnBuy);
 
-                vBox.setOnMouseClicked(event -> changeScene("store/fxml/app/app.fxml"));
+                vBox.setOnMouseClicked(event ->
+                {
+                    AppController.appName = lblName.getText();
+                    changeScene("store/fxml/app/app.fxml");
+                });
 
                 gridPane.add(vBox, j, i);
                 count = count + 1;

@@ -73,7 +73,7 @@ public class MenuController extends Controller implements Initializable
                 LoginController controller = new LoginController();
                 openNewWindowShowAndWait("Login", "store/fxml/user/login.fxml", 200, 500, controller);
 
-                changeScene("store/fxml/user/user.fxml");
+                init();
             }
             else
                 changeScene("store/fxml/user/user.fxml");

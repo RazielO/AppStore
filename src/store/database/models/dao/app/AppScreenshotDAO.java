@@ -42,15 +42,17 @@ public class AppScreenshotDAO
         }
 
         query = "INSERT INTO appscreenshot" +
-                "    (idapp, idscreenshot)" +
-                " VALUES (?, ?)";
+                "    (idApp, idScreenshot)" +
+                "     VALUES (?, (SELECT idScreenshot" +
+                "                 FROM screenshot" +
+                "                 WHERE idScreenshot IN (SELECT MAX(idScreenshot)" +
+                "                                        FROM screenshot)))";
 
         try
         {
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setLong(1, app.getId());
-            statement.setLong(2, screenshot.getId());
 
             statement.execute();
 

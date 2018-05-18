@@ -27,19 +27,19 @@ public class AppDAO
 
         try
         {
-            String query = "SELECT a.idApp, a.name, p.name publisher" +
-                           "    FROM app a INNER JOIN publishes pb ON a.idApp = pb.idApp" +
-                           "               INNER JOIN publisher p ON p.idPublisher = pb.idPublisher";
+            String query = "SELECT *" +
+                           "    FROM app";
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
+
             App app = null;
             while (resultSet.next())
             {
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
                 app = new App(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idApp"),
                         logo,
                         resultSet.getString("name"),
                         resultSet.getString("publisher"),
@@ -177,8 +177,8 @@ public class AppDAO
         try
         {
             String query = "INSERT INTO app" +
-                           "    (idApp, name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory) " +
-                           "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idCategory" +
+                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory) " +
+                           "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idCategory" +
                            "                                            FROM category" +
                            "                                            WHERE name = ?))";
 
@@ -186,18 +186,19 @@ public class AppDAO
 
             FileInputStream stream = new FileInputStream(app.getLogoFile());
 
-            statement.setLong(1, app.getId());
-            statement.setString(2, app.getName());
-            statement.setString(3, app.getDescription());
-            statement.setString(4, app.getVersion());
-            statement.setBlob(5, stream);
-            statement.setDouble(6, app.getRating());
-            statement.setDouble(7, app.getPrice());
-            statement.setString(8, app.getSize());
-            statement.setLong(9, app.getDownloads());
-            statement.setString(10, app.getFeatures());
-            statement.setString(11, app.getCompatibility());
-            statement.setString(12, app.getCategory());
+            statement.setString(1, app.getName());
+            statement.setString(2, app.getDescription());
+            statement.setString(3, app.getVersion());
+            statement.setBlob(4, stream);
+            statement.setDouble(5, app.getRating());
+            statement.setDouble(6, app.getPrice());
+            statement.setString(7, app.getSize());
+            statement.setLong(8, app.getDownloads());
+            statement.setString(9, app.getFeatures());
+            statement.setString(10, app.getCompatibility());
+            statement.setString(11, app.getCategory());
+
+            statement.execute();
 
             return Boolean.TRUE;
         }
@@ -224,7 +225,7 @@ public class AppDAO
             query = "SELECT s.*" +
                     "   FROM screenshot s INNER JOIN appscreenshot aps ON s.idScreenshot = aps.idScreenshot" +
                     "                     INNER JOIN app a ON a.idApp = aps.idApp" +
-                    "   WHERE a.name = " + app.getName();
+                    "   WHERE a.name = '" + app.getName() + "'";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery(query);
 
@@ -237,7 +238,7 @@ public class AppDAO
             query = "SELECT l.*" +
                     "   FROM language l INNER JOIN applanguage al ON l.idLanguage = al.idLanguage" +
                     "                   INNER JOIN app a ON a.idApp = al.idApp" +
-                    "   WHERE a.idApp = " + app.getId();
+                    "   WHERE a.name = '" + app.getName() + "'";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery(query);
 
@@ -246,9 +247,10 @@ public class AppDAO
                 languages.add(new Language(resultSet.getString("idLanguage"), resultSet.getString("name")));
             }
 
-            query = "SELECT name, comment, rating, commentDate" +
+            query = "SELECT a.name, comment, c.rating, commentDate" +
                     "    FROM comment c INNER JOIN user u ON c.idUser = u.idUser" +
-                    "    WHERE a.idApp = " + app.getId();
+                    "                   INNER JOIN app a ON a.idApp = c.idApp" +
+                    "    WHERE a.name = '" + app.getName() + "'";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery(query);
 
@@ -259,33 +261,34 @@ public class AppDAO
             }
 
 
-            query = "SELECT a.*, c.name category, p.name publisher" +
-                    "   FROM app a INNER JOIN category c ON a.idApp = c.idApp" +
-                    "              INNER JOIN publishes pr ON a.idApp = pr.idApp" +
-                    "              INNER JOIN publisher p ON p.idPublisher = pr.idPublisher" +
-                    "   WHERE a.idApp = " + app.getId();
+            query = "SELECT a.*, c.name category" +
+                    "   FROM app a INNER JOIN category c ON a.idCategory = c.idCategory" +
+                    "   WHERE a.name = '" + app.getName() + "'";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery(query);
 
-            Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
+            if (resultSet.next())
+            {
+                Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
-            a = new App();
-            a.setId(resultSet.getLong("id"));
-            a.setCategory(resultSet.getString("category"));
-            a.setName(resultSet.getString("name"));
-            a.setComments(comments);
-            a.setCompatibility(resultSet.getString("compatibility"));
-            a.setDescription(resultSet.getString("description"));
-            a.setDownloads(resultSet.getLong("downloads"));
-            a.setFeatures(resultSet.getString("features"));
-            a.setLanguages(languages);
-            a.setLogo(logo);
-            a.setPrice(resultSet.getDouble("price"));
-            a.setPublisher(resultSet.getString("publisher"));
-            a.setRating(resultSet.getDouble("rating"));
-            a.setScreenshots(screenshots);
-            a.setSize(resultSet.getString("size"));
-            a.setVersion(resultSet.getString("version"));
+                a = new App();
+                a.setId(resultSet.getLong("idApp"));
+                a.setCategory(resultSet.getString("category"));
+                a.setName(resultSet.getString("name"));
+                a.setComments(comments);
+                a.setCompatibility(resultSet.getString("compatibility"));
+                a.setDescription(resultSet.getString("description"));
+                a.setDownloads(resultSet.getLong("downloads"));
+                a.setFeatures(resultSet.getString("features"));
+                a.setLanguages(languages);
+                a.setLogo(logo);
+                a.setPrice(resultSet.getDouble("price"));
+                a.setPublisher(resultSet.getString("publisher"));
+                a.setRating(resultSet.getDouble("rating"));
+                a.setScreenshots(screenshots);
+                a.setSize(resultSet.getString("size"));
+                a.setVersion(resultSet.getString("version"));
+            }
         }
         catch (SQLException e)
         {

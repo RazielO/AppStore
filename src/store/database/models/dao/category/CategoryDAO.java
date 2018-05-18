@@ -61,7 +61,7 @@ public class CategoryDAO
             String query = "DELETE FROM category" +
                            "    WHERE idCategory = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
+            statement.setInt(1, id);
             statement.execute();
             return Boolean.TRUE;
         }
@@ -90,6 +90,8 @@ public class CategoryDAO
             statement.setBinaryStream(2, stream);
             statement.setInt(3, category.getId());
 
+            statement.execute();
+
             return Boolean.TRUE;
         }
         catch (SQLException | IOException e)
@@ -104,7 +106,7 @@ public class CategoryDAO
         try
         {
             String query = "INSERT INTO category" +
-                           "    (idCategory, name, logo, game)" +
+                           "    (name, logo)" +
                            "    VALUES (?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -113,6 +115,8 @@ public class CategoryDAO
 
             statement.setString(1, category.getName());
             statement.setBinaryStream(2, stream);
+
+            statement.execute();
 
             return Boolean.TRUE;
         }
@@ -130,18 +134,23 @@ public class CategoryDAO
         {
             String query = "SELECT *" +
                            "    FROM category" +
-                           "    WHERE name = " + name;
+                           "    WHERE name = '" + name + "'";
 
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery(query);
 
-            Image image = new Image(resultSet.getBlob("logo").getBinaryStream());
+            if (resultSet.next())
+            {
+                Image image = new Image(resultSet.getBlob("logo").getBinaryStream());
 
-            a = new Category(
-                             resultSet.getInt("idCategory"),
-                             resultSet.getString("name"),
-                             image
-                            );
+                a = new Category(
+                        resultSet.getInt("idCategory"),
+                        resultSet.getString("name"),
+                        image
+                );
+            }
+
+            statement.execute();
 
         }
         catch (SQLException e)
