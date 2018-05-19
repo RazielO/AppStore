@@ -27,14 +27,17 @@ public class PurchasedDAO
                        "    VALUES (?, ?, ?)";
         try
         {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             Calendar cal = Calendar.getInstance();
+            java.util.Date date = cal.getTime();
+            Date today = new Date(date.getTime());
 
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setLong(1, app.getId());
             statement.setLong(2, user.getId());
-            statement.setDate(3, Date.valueOf(dateFormat.format(cal)));
+            statement.setDate(3, today);
+
+            statement.execute();
 
             return true;
         }
@@ -49,11 +52,9 @@ public class PurchasedDAO
     {
         List<App> apps = new ArrayList<>();
 
-        String query = "SELECT app.*, publisher.name publisher\n" +
-                       "  FROM purchases INNER JOIN app ON purchases.idApp = app.idApp\n" +
-                       "                 INNER JOIN publishes ON app.idApp = publishes.idApp\n" +
-                       "                 INNER JOIN publisher ON publishes.idPublisher = publisher.idPublisher\n" +
-                       "  WHERE purchases.idUser = ?";
+        String query = "SELECT app.*" +
+                       "     FROM purchases INNER JOIN app ON purchases.idApp = app.idApp" +
+                       "      WHERE purchases.idUser = ?";
 
         try
         {

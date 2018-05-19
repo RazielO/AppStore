@@ -38,14 +38,13 @@ public class AppDAO
             {
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
-                app = new App(
-                        resultSet.getLong("idApp"),
-                        logo,
-                        resultSet.getString("name"),
-                        resultSet.getString("publisher"),
-                        resultSet.getDouble("price"),
-                        resultSet.getDouble("rating")
-                );
+                app = new App();
+                app.setId(resultSet.getLong("idApp"));
+                app.setLogo(logo);
+                app.setPublisher(resultSet.getString("publisher"));
+                app.setName(resultSet.getString("name"));
+                app.setPrice(resultSet.getDouble("price"));
+                app.setRating(resultSet.getDouble("rating"));
 
                 apps.add(app);
             }

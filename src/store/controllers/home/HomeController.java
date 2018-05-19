@@ -24,7 +24,7 @@ public class HomeController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        fillApps(fillList(), gridPane);
+        fillApps(appDAO.findAll(), gridPane);
     }
 
     public static List<App> fillList()

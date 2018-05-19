@@ -89,58 +89,7 @@
                     </font>
                 </Label>
                 <ScrollPane nodeOrientation="LEFT_TO_RIGHT" fitToHeight="true" vbarPolicy="NEVER">
-                    <HBox spacing="5" fx:id="hboxScreenshot">
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s1.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s2.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s3.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s4.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s5.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s6.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s7.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s8.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s9.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView preserveRatio="true" fitHeight="350">
-                            <image>
-                                <Image url="@/store/controllers/resources/screen/s10.png"/>
-                            </image>
-                        </ImageView>
-                    </HBox>
+                    <HBox spacing="5" fx:id="hboxScreenshot"/>
                 </ScrollPane>
             </VBox>
 

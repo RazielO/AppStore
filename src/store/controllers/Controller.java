@@ -25,8 +25,8 @@ import org.controlsfx.control.Rating;
 import store.controllers.app.AppController;
 import store.controllers.menu.MenuController;
 import store.database.models.app.App;
-import store.database.models.dao.app.AppDAO;
 import store.database.models.dao.MySQL;
+import store.database.models.dao.app.AppDAO;
 import store.database.models.dao.user.PurchasedDAO;
 import store.database.models.dao.user.UserDAO;
 import store.main.Main;
@@ -96,61 +96,66 @@ public class Controller
     {
         int i, j, count = 0;
 
-        for (i = 0; i < (apps.size() / 5); i++)
+        for (i = 0; i <= (apps.size() / 5); i++)
             for (j = 0; j < 5; j++)
-            {
-                App app = apps.get(count);
-
-                VBox vBox = new VBox();
-                vBox.setAlignment(Pos.CENTER);
-                vBox.setPrefHeight(350);
-                vBox.setPrefWidth(250);
-                vBox.setSpacing(5);
-
-                ImageView imageView = new ImageView();
-                imageView.setFitHeight(200);
-                imageView.setFitWidth(200);
-                imageView.setImage(app.getLogo());
-
-                Label lblId = new Label(String.valueOf(app.getId()));
-                lblId.setFont(new Font("Arial", 1));
-                lblId.setVisible(false);
-
-                Label lblName = new Label(app.getName());
-                lblName.setFont(new Font("Arial Black", 24));
-
-                Label lblPublisher = new Label(app.getPublisher());
-                lblPublisher.setFont(new Font("Arial", 20));
-
-                Label lblRating = new Label(String.valueOf(app.getRating()));
-                lblRating.setFont(new Font("Arial", 18));
-
-                Rating rating = new Rating();
-                rating.setOrientation(Orientation.HORIZONTAL);
-                rating.setPartialRating(true);
-                rating.setRating(app.getRating());
-                rating.setUpdateOnHover(false);
-                rating.setMax(5);
-                rating.setDisable(true);
-
-                Label lblPrice = new Label("$" + app.getPrice());
-                lblPrice.setFont(new Font("Arial", 18));
-
-                Button btnBuy = new Button("Buy");
-                btnBuy.setFont(new Font("Arial", 18));
-                btnBuy.setOnAction(handler);
-
-                vBox.getChildren().addAll(imageView, lblId, lblName, lblPublisher, rating, lblPrice, btnBuy);
-
-                vBox.setOnMouseClicked(event ->
+                if ((i * 5) + j >= apps.size())
+                    break;
+                else
                 {
-                    AppController.appName = lblName.getText();
-                    changeScene("store/fxml/app/app.fxml");
-                });
+                    App app = apps.get(count);
 
-                gridPane.add(vBox, j, i);
-                count = count + 1;
-            }
+                    VBox vBox = new VBox();
+                    vBox.setAlignment(Pos.CENTER);
+                    vBox.setPrefHeight(350);
+                    vBox.setPrefWidth(250);
+                    vBox.setSpacing(5);
+
+                    ImageView imageView = new ImageView();
+                    imageView.setFitHeight(200);
+                    imageView.setFitWidth(200);
+                    imageView.setImage(app.getLogo());
+
+                    Label lblId = new Label(String.valueOf(app.getId()));
+                    lblId.setFont(new Font("Arial", 12));
+                    //lblId.setVisible(false);
+
+                    Label lblName = new Label(app.getName());
+                    lblName.setFont(new Font("Arial Black", 24));
+
+                    Label lblPublisher = new Label(app.getPublisher());
+                    lblPublisher.setFont(new Font("Arial", 20));
+
+                    Label lblRating = new Label(String.valueOf(app.getRating()));
+                    lblRating.setFont(new Font("Arial", 18));
+
+                    Rating rating = new Rating();
+                    rating.setOrientation(Orientation.HORIZONTAL);
+                    rating.setPartialRating(true);
+                    rating.setRating(app.getRating());
+                    rating.setUpdateOnHover(false);
+                    rating.setMax(5);
+                    rating.setDisable(true);
+
+                    Label lblPrice = new Label("$" + app.getPrice());
+                    lblPrice.setFont(new Font("Arial", 18));
+
+                    Button btnBuy = new Button("Buy");
+                    btnBuy.setFont(new Font("Arial", 18));
+                    btnBuy.setOnAction(handler);
+
+                    vBox.getChildren().addAll(imageView, lblId, lblName, lblPublisher, rating, lblPrice, btnBuy);
+
+                    vBox.setOnMouseClicked(event ->
+                    {
+                        AppController.appName = lblName.getText();
+                        changeScene("store/fxml/app/app.fxml");
+                    });
+
+                    gridPane.add(vBox, j, i);
+                    count = count + 1;
+                }
+
+
     }
 
     private EventHandler<ActionEvent> handler = event ->
@@ -178,7 +183,7 @@ public class Controller
 
                 try
                 {
-                    purchasedDAO.insert(appDAO.fetch(app), userDAO.findByEmail(MenuController.user.getEmail()));
+                    purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
 
                     alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
                 }
@@ -196,23 +201,23 @@ public class Controller
         {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
+            hBox.setAlignment(Pos.CENTER);
 
             ImageView imageView = new ImageView();
             imageView.setFitHeight(75);
             imageView.setFitWidth(75);
-            imageView.setImage(new Image("store/controllers/resources/spotify.png"));
+            imageView.setImage(app.getLogo());
 
             Label label1 = new Label(app.getName());
             Label label2 = new Label(app.getPublisher());
-            Label label3 = new Label("Downloads");
-            Label label4 = new Label("Version");
+            Label label3 = new Label(String.valueOf(app.getDownloads()));
+            Label label4 = new Label(app.getVersion());
 
             Rating rating = new Rating();
             rating.setOrientation(Orientation.HORIZONTAL);
             rating.setPartialRating(true);
             rating.setRating(app.getRating());
             rating.setUpdateOnHover(false);
-            rating.setMax(5);
             rating.setRating(app.getRating());
             rating.setDisable(true);
 

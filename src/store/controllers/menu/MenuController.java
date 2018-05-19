@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import store.controllers.Controller;
 import store.controllers.category.ManageCategoryController;
 import store.controllers.user.LoginController;
@@ -59,6 +60,13 @@ public class MenuController extends Controller implements Initializable
                 btnMenu.getItems().addAll(itmAddApp, itmCategories, itmUsers, itmLogout);
             else
                 btnMenu.getItems().add(itmLogout);
+
+            ImageView imageView = new ImageView(user.getPicture());
+            imageView.setFitHeight(25);
+            imageView.setFitWidth(25);
+
+            btnUser.setGraphic(imageView);
+            btnUser.setText("");
         }
         else
             btnMenu.setVisible(false);
@@ -103,6 +111,8 @@ public class MenuController extends Controller implements Initializable
             if (user.getId() != null)
             {
                 user = new User();
+                btnUser.setText("User");
+                btnUser.setGraphic(null);
                 changeScene("store/fxml/home/home.fxml");
                 alertMessage("You are now logged out", "Logout", Alert.AlertType.INFORMATION, "Successful logout");
             }
