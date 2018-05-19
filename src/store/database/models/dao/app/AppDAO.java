@@ -246,7 +246,7 @@ public class AppDAO
                 languages.add(new Language(resultSet.getString("idLanguage"), resultSet.getString("name")));
             }
 
-            query = "SELECT a.name, comment, c.rating, commentDate" +
+            query = "SELECT a.name, comment, c.rating, commentDate, u.username, a.idApp, u.idUser" +
                     "    FROM comment c INNER JOIN user u ON c.idUser = u.idUser" +
                     "                   INNER JOIN app a ON a.idApp = c.idApp" +
                     "    WHERE a.name = '" + app.getName() + "'";
@@ -255,8 +255,14 @@ public class AppDAO
 
             while (resultSet.next())
             {
-                comments.add(new Comment(resultSet.getString("comment"), resultSet.getString("name"),
-                        resultSet.getDouble("rating"), resultSet.getDate("dateComment")));
+                Comment e = new Comment();
+                e.setIdUser(resultSet.getLong("idUser"));
+                e.setUsername(resultSet.getString("username"));
+                e.setIdApp(resultSet.getLong("idApp"));
+                e.setRating(resultSet.getDouble("rating"));
+                e.setComment(resultSet.getString("comment"));
+
+                comments.add(e);
             }
 
 

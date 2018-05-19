@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -24,9 +23,11 @@ import javafx.stage.Stage;
 import org.controlsfx.control.Rating;
 import store.controllers.app.AppController;
 import store.controllers.menu.MenuController;
+import store.controllers.menu.RateAppController;
 import store.database.models.app.App;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.app.AppDAO;
+import store.database.models.dao.app.CommentDAO;
 import store.database.models.dao.user.PurchasedDAO;
 import store.database.models.dao.user.UserDAO;
 import store.main.Main;
@@ -141,7 +142,7 @@ public class Controller
 
                     Button btnBuy = new Button("Buy");
                     btnBuy.setFont(new Font("Arial", 18));
-                    btnBuy.setOnAction(handler);
+                    btnBuy.setOnAction(handlerBuy);
 
                     vBox.getChildren().addAll(imageView, lblId, lblName, lblPublisher, rating, lblPrice, btnBuy);
 
@@ -158,7 +159,7 @@ public class Controller
 
     }
 
-    private EventHandler<ActionEvent> handler = event ->
+    private EventHandler<ActionEvent> handlerBuy = event ->
     {
         if (MenuController.user.getId() == null)
             alertMessage("You have to login first to buy an app", "Error", Alert.AlertType.ERROR, "Login first");
@@ -175,7 +176,6 @@ public class Controller
                 Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(1);
 
                 PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
-                AppDAO appDAO = new AppDAO(MySQL.getConnection());
                 UserDAO userDAO = new UserDAO(MySQL.getConnection());
 
                 App app = new App();
@@ -222,14 +222,35 @@ public class Controller
             rating.setDisable(true);
 
             Label label5 = new Label(String.valueOf(app.getId()));
+            label5.setVisible(false);
 
             Button button = new Button("Rate it");
+            button.setOnAction(handlerRate);
 
             hBox.getChildren().addAll(imageView, label1, label2, label3, label4, rating, label5, button);
 
             vBox.getChildren().add(hBox);
         }
     }
+
+    private EventHandler<ActionEvent> handlerRate = event ->
+    {
+        CommentDAO commentDAO = new CommentDAO(MySQL.getConnection());
+
+        Label temp = (Label)(((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(1));
+        RateAppController.appName = temp.getText();
+
+        temp = (Label)(((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(6));
+        RateAppController.idApp = Long.parseLong(temp.getText());
+
+        if (commentDAO.exists(Long.parseLong(temp.getText()), MenuController.user.getId()))
+            alertMessage("You cannot comment twice on the same app", "Error", Alert.AlertType.ERROR, "You already had commented this app");
+        else
+        {
+            RateAppController controller = new RateAppController();
+            openNewWindowShowAndWait("Rate this app", "store/fxml/menu/rateApp.fxml", 250, 750, controller);
+        }
+    };
 
     protected void configureFileChooser(final FileChooser fileChooser)
     {

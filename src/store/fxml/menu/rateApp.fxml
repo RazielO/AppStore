@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.Rating?>
+<?import javafx.geometry.Insets?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="store.controllers.menu.RateAppController"
+      spacing="10">
+
+    <padding>
+        <Insets topRightBottomLeft="25"/>
+    </padding>
+
+    <VBox spacing="25" alignment="CENTER">
+        <Label fx:id="lblName" text="App name" textAlignment="CENTER">
+            <font>
+                <Font name="Arial" size="18"/>
+            </font>
+        </Label>
+
+        <Rating fx:id="rating" orientation="HORIZONTAL" partialRating="false" updateOnHover="true"/>
+
+        <HBox spacing="15">
+            <Button text="Accept" fx:id="btnAccept">
+                <font>
+                    <Font name="Arial" size="18"/>
+                </font>
+            </Button>
+
+            <Button text="Cancel" fx:id="btnCancel">
+                <font>
+                    <Font name="Arial" size="18"/>
+                </font>
+            </Button>
+        </HBox>
+    </VBox>
+
+    <TextArea fx:id="txtComment">
+        <font>
+            <Font name="Arial" size="12"/>
+        </font>
+    </TextArea>
+
+</HBox>

@@ -110,6 +110,8 @@ public class AppController extends Controller implements Initializable
                 txtComment.setEditable(false);
 
                 hBox.getChildren().addAll(vBox, txtComment);
+
+                vboxComments.getChildren().add(hBox);
             }
         }
     }

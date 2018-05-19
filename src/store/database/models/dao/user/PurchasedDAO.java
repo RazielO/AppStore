@@ -54,7 +54,7 @@ public class PurchasedDAO
 
         String query = "SELECT app.*" +
                        "     FROM purchases INNER JOIN app ON purchases.idApp = app.idApp" +
-                       "      WHERE purchases.idUser = ?";
+                       "     WHERE purchases.idUser = ?";
 
         try
         {

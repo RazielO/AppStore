@@ -7,6 +7,11 @@ public class Comment
     private String comment, username;
     private Double rating;
     private Date date;
+    private Long idUser, idApp;
+
+    public Comment()
+    {
+    }
 
     public Comment(String comment, String username, Double rating, Date date)
     {
@@ -54,5 +59,25 @@ public class Comment
     public void setDate(Date date)
     {
         this.date = date;
+    }
+
+    public Long getIdUser()
+    {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser)
+    {
+        this.idUser = idUser;
+    }
+
+    public Long getIdApp()
+    {
+        return idApp;
+    }
+
+    public void setIdApp(Long idApp)
+    {
+        this.idApp = idApp;
     }
 }
