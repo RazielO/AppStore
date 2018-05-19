@@ -8,6 +8,9 @@ public class Card
     private Integer cvv;
     private Date expirationDate;
 
+    public Card()
+    {
+    }
 
     public Card(String number, String name, String lastName, Integer cvv, Date expirationDate)
     {

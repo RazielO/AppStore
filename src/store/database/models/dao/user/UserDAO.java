@@ -1,6 +1,8 @@
 package store.database.models.dao.user;
 
 import javafx.scene.image.Image;
+import store.database.models.dao.MySQL;
+import store.database.models.user.Card;
 import store.database.models.user.User;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.util.List;
 public class UserDAO
 {
     private Connection connection;
+    private CardDAO cardDAO = new CardDAO(MySQL.getConnection());
 
     public UserDAO(Connection connection)
     {
@@ -40,10 +43,9 @@ public class UserDAO
                 user.setAdmin(resultSet.getBoolean("admin"));
                 user.setBirthday(resultSet.getDate("birthday"));
                 user.setUsername(resultSet.getString("username"));
-                user.setImageFile((File) resultSet.getBlob("picture"));
                 user.setPassword(resultSet.getString("password"));
                 user.setPhone(resultSet.getString("phone"));
-                user.setPicture((Image) resultSet.getBlob("picture"));
+                user.setPicture(image);
                 user.setId(resultSet.getLong("idUser"));
                 user.setName(resultSet.getString("name"));
                 user.setLastName(resultSet.getString("lastName"));
@@ -63,15 +65,20 @@ public class UserDAO
         return users;
     }
 
-    public Boolean delete(Long idUser)
+    public Boolean delete(User user)
     {
         try
         {
             String query = "DELETE FROM user" +
                            "    WHERE iduser = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, idUser);
+            statement.setLong(1, user.getId());
             statement.execute();
+
+            Card card = new Card();
+            card.setNumber(user.getCardNumber());
+            cardDAO.delete(card);
+
             return Boolean.TRUE;
         }
         catch (SQLException e)

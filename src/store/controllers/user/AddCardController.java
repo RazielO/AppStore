@@ -16,6 +16,7 @@ import store.database.models.dao.MySQL;
 
 import java.net.URL;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -69,7 +70,14 @@ public class AddCardController extends Controller implements Initializable
                 {
                     card = new Card(txtNumber.getText(), txtName.getText(), txtLastName.getText(),
                             Integer.parseInt(txtCvv.getText()), date);
-                    cardDAO.insert(card);
+                    try
+                    {
+                        cardDAO.insert(card);
+                    }
+                    catch (SQLException e)
+                    {
+                        alertMessage("Someone else already has that card number", "Error", Alert.AlertType.ERROR, "Card not valid");
+                    }
                     closeStage();
                 }
                 else

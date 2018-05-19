@@ -32,7 +32,7 @@ public class SignUpController extends Controller implements Initializable
 
     private Image profile = null;
     private File file = null;
-    AddCardController controller = null;
+    private AddCardController controller = null;
     private User user = null;
     private UserDAO userDAO = new UserDAO(MySQL.getConnection());
 

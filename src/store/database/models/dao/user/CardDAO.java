@@ -16,7 +16,7 @@ public class CardDAO
     public Boolean delete(Card card)
     {
         String query = "DELETE FROM card" +
-                       "    WHERE cardNumber = " + card.getNumber();
+                       "    WHERE cardNumber = '" + card.getNumber() + "'";
         try
         {
             Statement statement = connection.createStatement();
@@ -30,12 +30,10 @@ public class CardDAO
         return false;
     }
 
-    public void insert(Card card)
+    public void insert(Card card) throws SQLException
     {
         String query = "INSERT INTO card (cardNumber, cvv, name, lastName, expirationDate)" +
                        "    VALUES (?, ?, ?, ?, ?)";
-        try
-        {
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1, card.getNumber());
@@ -45,10 +43,5 @@ public class CardDAO
             statement.setDate(5, card.getExpirationDate());
 
             statement.execute();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

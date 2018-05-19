@@ -117,8 +117,8 @@ public class Controller
                     imageView.setImage(app.getLogo());
 
                     Label lblId = new Label(String.valueOf(app.getId()));
-                    lblId.setFont(new Font("Arial", 12));
-                    //lblId.setVisible(false);
+                    lblId.setFont(new Font("Arial", 1));
+                    lblId.setVisible(false);
 
                     Label lblName = new Label(app.getName());
                     lblName.setFont(new Font("Arial Black", 24));

@@ -130,6 +130,8 @@ public class MenuController extends Controller implements Initializable
                     ManageCategoryController controller = new ManageCategoryController();
                     openNewWindow("Manage categories", "store/fxml/category/manageCategory.fxml", 200, 450, controller);
                 }
+                else if (event.getSource() == itmUsers)
+                    changeScene("store/fxml/user/manageUsers.fxml");
             }
             else if (user.getId() != null && !user.getAdmin())
                 alertMessage("You have to be an admin to perform this action", "Error", Alert.AlertType.ERROR, "You cannot access this");
