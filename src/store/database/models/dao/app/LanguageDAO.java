@@ -18,7 +18,8 @@ public class LanguageDAO
     public List<Language> fetchAll()
     {
         String query = "SELECT *" +
-                       "    FROM language";
+                       "    FROM language" +
+                       "    ORDER BY name";
 
         List<Language> list = new ArrayList<>();
 

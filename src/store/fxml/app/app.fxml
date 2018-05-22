@@ -2,10 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import org.controlsfx.control.*?>
+<?import org.controlsfx.control.Rating?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="store.controllers.app.AppController"
@@ -58,11 +59,23 @@
                         </font>
                     </Label>
 
-                    <Button text="Buy" fx:id="btnBuy">
-                        <font>
-                            <Font name="Arial" size="16"/>
-                        </font>
-                    </Button>
+                    <HBox spacing="10">
+                        <Button text="Buy" fx:id="btnBuy">
+                            <font>
+                                <Font name="Arial" size="16"/>
+                            </font>
+                        </Button>
+                        <Button text="Edit" fx:id="btnEdit" visible="false">
+                            <font>
+                                <Font name="Arial" size="16"/>
+                            </font>
+                        </Button>
+                        <Button text="Delete" fx:id="btnDelete" visible="false">
+                            <font>
+                                <Font name="Arial" size="16"/>
+                            </font>
+                        </Button>
+                    </HBox>
                 </VBox>
 
                 <VBox spacing="10" alignment="CENTER">

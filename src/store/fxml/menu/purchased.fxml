@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="store.controllers.menu.PurchasedController" alignment="CENTER">
+      fx:controller="store.controllers.menu.PurchasedController">
 
     <ScrollPane>
         <padding>

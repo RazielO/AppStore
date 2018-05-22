@@ -81,14 +81,14 @@ public class MenuController extends Controller implements Initializable
                 LoginController controller = new LoginController();
                 openNewWindowShowAndWait("Login", "store/fxml/user/login.fxml", 200, 500, controller);
 
-                init();
+                changeScene("store/fxml/home/home.fxml");
             }
             else
                 changeScene("store/fxml/user/user.fxml");
         }
         else if (event.getSource() == btnTopApps)
         {
-            System.out.println("top apps");
+            changeScene("store/fxml/menu/topApps.fxml");
         }
         else if (event.getSource() == btnPurchased)
             if (user.getId() == null)

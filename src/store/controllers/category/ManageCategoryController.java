@@ -54,7 +54,7 @@ public class ManageCategoryController extends Controller implements Initializabl
         else if (event.getSource() == btnDelete)
         {
             Category category = categoryDAO.fetch(cmbCategories.getSelectionModel().getSelectedItem());
-            if (appDAO.findByPublisher(Long.valueOf(category.getId())).size() != 0)
+            if (appDAO.findByCategory(category.getId()).size() != 0)
                 alertMessage("This category has apps in it", "Error", Alert.AlertType.ERROR, "You cannot delete this category");
             else
             {

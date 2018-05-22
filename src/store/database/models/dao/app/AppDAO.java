@@ -65,11 +65,10 @@ public class AppDAO
 
         try
         {
-            String query = "SELECT a.idApp, a.name, p.name publisher" +
-                           "    FROM app a INNER JOIN publishes pb ON a.idApp = pb.idApp" +
-                           "               INNER JOIN publisher p ON p.idPublisher = pb.idPublisher" +
-                           "    ORDER BY a.rating" +
-                           "    LIMIT 100";
+            String query = "SELECT *" +
+                           "    FROM app " +
+                           "    ORDER BY rating, downloads" +
+                           "    LIMIT 20";
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -79,7 +78,7 @@ public class AppDAO
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
                 app = new App(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idApp"),
                         logo,
                         resultSet.getString("name"),
                         resultSet.getString("publisher"),
@@ -100,22 +99,86 @@ public class AppDAO
         return apps;
     }
 
-    public Boolean delete(Long id)
+    public Boolean delete(App app)
     {
+        String query;
+        List<Long> ids = new ArrayList<>();
+        PreparedStatement statement;
+
         try
         {
-            String query = "DELETE FROM app" +
-                           "    WHERE idApp = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setLong(1, id);
+            query = "SELECT idScreenshot" +
+                    "    FROM screenshot" +
+                    "    WHERE idScreenshot IN (SELECT idScreenshot" +
+                    "                               FROM appScreenshot" +
+                    "                               WHERE idApp = ?)";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next())
+                ids.add(resultSet.getLong("idScreenshot"));
+
+
+
+            query = "DELETE FROM appScreenshot" +
+                    "  WHERE idApp = ?";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
             statement.execute();
-            return Boolean.TRUE;
+
+
+
+
+            for (Long id : ids)
+            {
+                query = "DELETE FROM screenshot" +
+                        "  WHERE idScreenshot = ?";
+
+                statement = connection.prepareStatement(query);
+                statement.setLong(1, id);
+                statement.execute();
+            }
+
+
+
+            query = "DELETE FROM purchases" +
+                    "  WHERE idApp = ?";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
+            statement.execute();
+
+
+            query = "DELETE FROM comment" +
+                    "  WHERE idApp = ?";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
+            statement.execute();
+
+
+
+            query = "DELETE FROM appLanguage" +
+                    "  WHERE idApp = ?";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
+            statement.execute();
+
+
+
+            query = "DELETE FROM app" +
+                    "  WHERE idApp = ?";
+            statement = connection.prepareStatement(query);
+            statement.setLong(1, app.getId());
+            statement.execute();
+
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
-        return Boolean.FALSE;
+
+        return false;
     }
 
     public Boolean update(App app)
@@ -123,8 +186,7 @@ public class AppDAO
         try
         {
             String query = "UPDATE app" +
-                           "    SET idApp = ?," +
-                           "        name = ?," +
+                           "    SET name = ?," +
                            "        description = ?," +
                            "        version = ?," +
                            "        logo = ?," +
@@ -136,27 +198,30 @@ public class AppDAO
                            "        compatibility = ?," +
                            "        idCategory = (SELECT idCategory" +
                            "                          FROM category" +
-                           "                          WHERE name = ?)" +
+                           "                          WHERE name = ?)," +
+                           "        publisher = ?" +
                            "    WHERE idApp = ?";
 
 
             PreparedStatement statement = connection.prepareStatement(query);
 
-            FileInputStream stream = new FileInputStream(String.valueOf(app.getLogo()));
+            FileInputStream stream = new FileInputStream(app.getLogoFile());
 
-            statement.setLong(1, app.getId());
-            statement.setString(2, app.getName());
-            statement.setString(3, app.getDescription());
-            statement.setString(4, app.getVersion());
-            statement.setBinaryStream(5, stream);
-            statement.setDouble(6, app.getRating());
-            statement.setDouble(7, app.getPrice());
-            statement.setString(8, app.getSize());
-            statement.setLong(9, app.getDownloads());
-            statement.setString(10, app.getFeatures());
-            statement.setString(11, app.getCompatibility());
-            statement.setString(12, app.getCategory());
+            statement.setString(1, app.getName());
+            statement.setString(2, app.getDescription());
+            statement.setString(3, app.getVersion());
+            statement.setBinaryStream(4, stream);
+            statement.setDouble(5, app.getRating());
+            statement.setDouble(6, app.getPrice());
+            statement.setString(7, app.getSize());
+            statement.setLong(8, app.getDownloads());
+            statement.setString(9, app.getFeatures());
+            statement.setString(10, app.getCompatibility());
+            statement.setString(11, app.getCategory());
+            statement.setString(12, app.getPublisher());
             statement.setLong(13, app.getId());
+
+            statement.execute();
 
             return Boolean.TRUE;
         }
@@ -171,15 +236,64 @@ public class AppDAO
         return Boolean.FALSE;
     }
 
+    public Boolean updateWithoutImage(App app)
+    {
+        try
+        {
+            String query = "UPDATE app" +
+                           "    SET idApp = ?," +
+                           "        name = ?," +
+                           "        description = ?," +
+                           "        version = ?," +
+                           "        rating = ?," +
+                           "        price = ?," +
+                           "        size = ?," +
+                           "        downloads = ?," +
+                           "        features = ?," +
+                           "        compatibility = ?," +
+                           "        idCategory = (SELECT idCategory" +
+                           "                          FROM category" +
+                           "                          WHERE name = ?)," +
+                           "         publisher = ?" +
+                           "    WHERE idApp = ?";
+
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setLong(1, app.getId());
+            statement.setString(2, app.getName());
+            statement.setString(3, app.getDescription());
+            statement.setString(4, app.getVersion());
+            statement.setDouble(5, app.getRating());
+            statement.setDouble(6, app.getPrice());
+            statement.setString(7, app.getSize());
+            statement.setLong(8, app.getDownloads());
+            statement.setString(9, app.getFeatures());
+            statement.setString(10, app.getCompatibility());
+            statement.setString(11, app.getCategory());
+            statement.setString(12, app.getPublisher());
+            statement.setLong(13, app.getId());
+
+            statement.execute();
+
+            return Boolean.TRUE;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return Boolean.FALSE;
+    }
+
     public Boolean insert(App app)
     {
         try
         {
             String query = "INSERT INTO app" +
-                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory) " +
+                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory, publisher) " +
                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idCategory" +
                            "                                            FROM category" +
-                           "                                            WHERE name = ?))";
+                           "                                            WHERE name = ?), ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
 
@@ -196,6 +310,7 @@ public class AppDAO
             statement.setString(9, app.getFeatures());
             statement.setString(10, app.getCompatibility());
             statement.setString(11, app.getCategory());
+            statement.setString(12, app.getPublisher());
 
             statement.execute();
 
@@ -343,56 +458,15 @@ public class AppDAO
         return apps;
     }
 
-    public List<App> findByPublisher(Long idPublisher)
-    {
-        List<App> apps = new ArrayList<>();
-
-        try
-        {
-            String query = "SELECT a.idApp, a.name, p.name publisher" +
-                           "    FROM app a INNER JOIN publishes pb ON a.idApp = pb.idApp" +
-                           "               INNER JOIN publisher p ON p.idPublisher = pb.idPublisher" +
-                           "    WHERE p.idPublisher = " + idPublisher;
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            App app = null;
-            while (resultSet.next())
-            {
-                Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
-
-                app = new App(
-                        resultSet.getLong("id"),
-                        logo,
-                        resultSet.getString("name"),
-                        resultSet.getString("publisher"),
-                        resultSet.getDouble("price"),
-                        resultSet.getDouble("rating")
-                );
-
-                apps.add(app);
-            }
-            resultSet.close();
-            statement.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return apps;
-    }
-
     public List<App> search(String name)
     {
         List<App> apps = new ArrayList<>();
 
         try
         {
-            String query = "SELECT a.idApp, a.name, p.name publisher" +
-                           "    FROM app a INNER JOIN publishes pb ON a.idApp = pb.idApp" +
-                           "               INNER JOIN publisher p ON p.idPublisher = pb.idPublisher" +
-                           "    WHERE a.name LIKE '%" + name + "%'";
+            String query = "SELECT *" +
+                           "    FROM app" +
+                           "    WHERE name LIKE '%" + name + "%'";
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -402,7 +476,7 @@ public class AppDAO
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
                 app = new App(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idApp"),
                         logo,
                         resultSet.getString("name"),
                         resultSet.getString("publisher"),

@@ -1,17 +1,18 @@
 package store.controllers.app;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.Rating;
 import store.controllers.Controller;
+import store.controllers.menu.MenuController;
 import store.database.models.app.App;
 import store.database.models.app.Comment;
 import store.database.models.app.Language;
@@ -20,6 +21,7 @@ import store.database.models.dao.MySQL;
 import store.database.models.dao.app.AppDAO;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppController extends Controller implements Initializable
@@ -30,7 +32,7 @@ public class AppController extends Controller implements Initializable
     Label lblName, lblPublisher, lblCategory, lblDownloads, lblPrice, lblSize, lblVersion, lblCompatibility,
             lblLanguages, lblFeatures;
     @FXML
-    Button btnBuy;
+    Button btnBuy, btnEdit, btnDelete;
     @FXML
     TextArea txtDescription;
     @FXML
@@ -42,6 +44,7 @@ public class AppController extends Controller implements Initializable
     public static String appName;
 
     private AppDAO appDAO = new AppDAO(MySQL.getConnection());
+    private App app;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -51,24 +54,37 @@ public class AppController extends Controller implements Initializable
 
     private void init()
     {
-        App app = new App();
+        app = new App();
         app.setName(AppController.appName);
         app = appDAO.fetch(app);
+        btnEdit.setOnAction(handler);
+        btnDelete.setOnAction(handler);
+        btnBuy.setOnAction(handlerBuy);
+
+        if (MenuController.user.getId() != null && MenuController.user.getAdmin())
+        {
+            btnEdit.setVisible(true);
+            btnDelete.setVisible(true);
+        }
 
         if (app != null)
         {
             image.setImage(app.getLogo());
 
             lblName.setText(app.getName());
-            lblCategory.setText(app.getCategory());
-            lblCompatibility.setText(app.getCompatibility());
-            lblDownloads.setText(String.valueOf(app.getDownloads()));
+            lblCategory.setText("Category: " + app.getCategory());
+            lblCompatibility.setText("Compatibility: " + app.getCompatibility());
+            lblDownloads.setText(String.valueOf(app.getDownloads()) + " downloads");
             lblFeatures.setText(app.getFeatures());
-            lblPrice.setText("$" + app.getPrice());
             lblPublisher.setText(app.getPublisher());
-            lblSize.setText(app.getSize());
-            lblVersion.setText(app.getVersion());
+            lblSize.setText("Size: " + app.getSize());
+            lblVersion.setText("Version: " + app.getVersion());
             txtDescription.setText(app.getDescription());
+
+            if (app.getPrice() != 0)
+                lblPrice.setText("$" + app.getPrice());
+            else
+                lblPrice.setText("Free");
 
             String text = "";
             for (Language language : app.getLanguages())
@@ -115,4 +131,34 @@ public class AppController extends Controller implements Initializable
             }
         }
     }
+
+    EventHandler<ActionEvent> handler = event ->
+    {
+        if (event.getSource() == btnEdit)
+        {
+            EditAppController.app = this.app;
+            changeScene("store/fxml/app/editApp.fxml");
+        }
+        else if (event.getSource() == btnDelete)
+        {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("¿Do you want to delete this app?");
+            alert.setContentText("Confirm that you want to delete this app");
+            alert.setTitle("Delete app");
+            Optional<ButtonType> confirmation = alert.showAndWait();
+
+            if (confirmation.get() == ButtonType.OK)
+            {
+                String temp = app.getName();
+
+                boolean result = appDAO.delete(this.app);
+
+                if (result)
+                {
+                    changeScene("store/fxml/home/home.fxml");
+                    alertMessage("It was deleted", "Info", Alert.AlertType.INFORMATION, temp + " was deleted");
+                }
+            }
+        }
+    };
 }

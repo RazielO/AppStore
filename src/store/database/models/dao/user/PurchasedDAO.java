@@ -89,4 +89,28 @@ public class PurchasedDAO
 
         return apps;
     }
+
+    public boolean hasBought(App app, User user)
+    {
+        String query = "SELECT *" +
+                       "    FROM purchases" +
+                       "    WHERE idApp = ? AND idUser = ?";
+
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setLong(1, app.getId());
+            statement.setLong(2, user.getId());
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next())
+                return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

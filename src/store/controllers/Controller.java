@@ -137,8 +137,13 @@ public class Controller
                     rating.setMax(5);
                     rating.setDisable(true);
 
-                    Label lblPrice = new Label("$" + app.getPrice());
+                    Label lblPrice = new Label();
                     lblPrice.setFont(new Font("Arial", 18));
+
+                    if (app.getPrice() != 0)
+                        lblPrice.setText("$" + app.getPrice());
+                    else
+                        lblPrice.setText("Free");
 
                     Button btnBuy = new Button("Buy");
                     btnBuy.setFont(new Font("Arial", 18));
@@ -159,12 +164,14 @@ public class Controller
 
     }
 
-    private EventHandler<ActionEvent> handlerBuy = event ->
+    protected EventHandler<ActionEvent> handlerBuy = event ->
     {
         if (MenuController.user.getId() == null)
             alertMessage("You have to login first to buy an app", "Error", Alert.AlertType.ERROR, "Login first");
         else
         {
+            AppDAO appDAO = new AppDAO(MySQL.getConnection());
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("¿Do you want to buy this app?");
             alert.setContentText("Confirm that you want this app");
@@ -173,24 +180,31 @@ public class Controller
 
             if (confirmation.get() == ButtonType.OK)
             {
-                Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(1);
+                Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(2);
 
                 PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
                 UserDAO userDAO = new UserDAO(MySQL.getConnection());
 
                 App app = new App();
-                app.setId(Long.valueOf(label.getText()));
+                app.setName(label.getText());
+                app = appDAO.fetch(app);
 
-                try
+                if (purchasedDAO.hasBought(app, MenuController.user))
                 {
-                    purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
-
-                    alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
+                    try
+                    {
+                        purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
+                        app.setDownloads(app.getDownloads() + 1);
+                        appDAO.updateWithoutImage(app);
+                        alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
+                    }
+                    catch (SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (SQLException e)
-                {
-                    e.printStackTrace();
-                }
+                else
+                    alertMessage("You already have this app", "Error", Alert.AlertType.ERROR, "You cannot buy this twice");
             }
         }
     };

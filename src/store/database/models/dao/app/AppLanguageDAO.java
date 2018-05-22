@@ -40,4 +40,27 @@ public class AppLanguageDAO
 
         return true;
     }
+
+    public boolean delete(App app, Language language)
+    {
+        String query = "DELETE FROM appLanguage" +
+                       "    WHERE idApp = ? AND idLanguage = ?";
+
+        try
+        {
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setLong(1, app.getId());
+            statement.setString(2, language.getId());
+
+            statement.execute();
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
