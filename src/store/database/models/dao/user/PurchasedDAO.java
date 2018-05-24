@@ -5,8 +5,6 @@ import store.database.models.app.App;
 import store.database.models.user.User;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,32 +18,25 @@ public class PurchasedDAO
         this.connection = connection;
     }
 
-    public Boolean insert(App app, User user)
+    public Boolean insert(App app, User user) throws SQLException
     {
         String query = "INSERT INTO purchases" +
-                       "    (idApp, idUser, date)" +
+                       "    (idapp, iduser, date)" +
                        "    VALUES (?, ?, ?)";
-        try
-        {
-            Calendar cal = Calendar.getInstance();
-            java.util.Date date = cal.getTime();
-            Date today = new Date(date.getTime());
 
-            PreparedStatement statement = connection.prepareStatement(query);
+        Calendar cal = Calendar.getInstance();
+        java.util.Date date = cal.getTime();
+        Date today = new Date(date.getTime());
 
-            statement.setLong(1, app.getId());
-            statement.setLong(2, user.getId());
-            statement.setDate(3, today);
+        PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.execute();
+        statement.setLong(1, app.getId());
+        statement.setLong(2, user.getId());
+        statement.setDate(3, today);
 
-            return true;
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
+        statement.execute();
+
+        return true;
     }
 
     public List<App> findAllByUser(User user)
@@ -53,8 +44,8 @@ public class PurchasedDAO
         List<App> apps = new ArrayList<>();
 
         String query = "SELECT app.*" +
-                       "     FROM purchases INNER JOIN app ON purchases.idApp = app.idApp" +
-                       "     WHERE purchases.idUser = ?";
+                       "     FROM purchases INNER JOIN app ON purchases.idapp = app.idapp" +
+                       "     WHERE purchases.iduser = ?";
 
         try
         {
@@ -88,29 +79,5 @@ public class PurchasedDAO
         }
 
         return apps;
-    }
-
-    public boolean hasBought(App app, User user)
-    {
-        String query = "SELECT *" +
-                       "    FROM purchases" +
-                       "    WHERE idApp = ? AND idUser = ?";
-
-        try
-        {
-            PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setLong(1, app.getId());
-            statement.setLong(2, user.getId());
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next())
-                return true;
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

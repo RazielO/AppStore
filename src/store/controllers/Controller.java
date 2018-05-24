@@ -178,7 +178,7 @@ public class Controller
             alert.setTitle("Buy this app");
             Optional<ButtonType> confirmation = alert.showAndWait();
 
-            if (confirmation.get() == ButtonType.OK)
+            if (confirmation.isPresent() && confirmation.get() == ButtonType.OK)
             {
                 Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(2);
 
@@ -189,23 +189,23 @@ public class Controller
                 app.setName(label.getText());
                 app = appDAO.fetch(app);
 
-                if (purchasedDAO.hasBought(app, MenuController.user))
+                try
                 {
-                    try
-                    {
-                        purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
-                        app.setDownloads(app.getDownloads() + 1);
-                        appDAO.updateWithoutImage(app);
-                        alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
-                    }
-                    catch (SQLException e)
-                    {
-                        e.printStackTrace();
-                    }
+                    purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
+                    alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
+                    app.setDownloads(app.getDownloads() + 1);
+                    appDAO.updateWithoutImage(app);
                 }
-                else
-                    alertMessage("You already have this app", "Error", Alert.AlertType.ERROR, "You cannot buy this twice");
+                catch (SQLException e)
+                {
+                    if (e.toString().contains("Duplicate entry"))
+                        alertMessage("You already have this app", "Error", Alert.AlertType.ERROR, "You cannot buy this twice");
+                    else
+                        e.printStackTrace();
+                }
             }
+
+
         }
     };
 
@@ -251,10 +251,10 @@ public class Controller
     {
         CommentDAO commentDAO = new CommentDAO(MySQL.getConnection());
 
-        Label temp = (Label)(((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(1));
+        Label temp = (Label) (((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(1));
         RateAppController.appName = temp.getText();
 
-        temp = (Label)(((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(6));
+        temp = (Label) (((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(6));
         RateAppController.idApp = Long.parseLong(temp.getText());
 
         if (commentDAO.exists(Long.parseLong(temp.getText()), MenuController.user.getId()))

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AppDAO
 {
-    Connection connection;
+    private Connection connection;
 
     public AppDAO(Connection connection)
     {
@@ -33,7 +33,7 @@ public class AppDAO
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            App app = null;
+            App app;
             while (resultSet.next())
             {
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
@@ -72,7 +72,7 @@ public class AppDAO
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            App app = null;
+            App app;
             while (resultSet.next())
             {
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
@@ -225,11 +225,7 @@ public class AppDAO
 
             return Boolean.TRUE;
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
+        catch (SQLException | IOException e)
         {
             e.printStackTrace();
         }
@@ -418,26 +414,27 @@ public class AppDAO
         return a;
     }
 
-    public List<App> findByCategory(Integer idCategory)
+    public List<App> findByCategory(int id)
     {
         List<App> apps = new ArrayList<>();
 
         try
         {
-            String query = "SELECT a.idApp, a.name, p.name publisher" +
-                           "    FROM app a INNER JOIN publishes pb ON a.idApp = pb.idApp" +
-                           "               INNER JOIN publisher p ON p.idPublisher = pb.idPublisher" +
-                           "    WHERE a.idCategory = " + idCategory;
+            String query = "SELECT *" +
+                           "    FROM app" +
+                           "    WHERE idCategory = ?";
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            App app = null;
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            App app;
             while (resultSet.next())
             {
                 Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
 
                 app = new App(
-                        resultSet.getLong("id"),
+                        resultSet.getLong("idApp"),
                         logo,
                         resultSet.getString("name"),
                         resultSet.getString("publisher"),
