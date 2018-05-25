@@ -209,7 +209,7 @@ public class Controller
         }
     };
 
-    protected void fillPurchased(List<App> apps, VBox vBox)
+    protected void fillPurchased(List<App> apps, VBox vBox, boolean visible)
     {
         for (App app : apps)
         {
@@ -240,6 +240,7 @@ public class Controller
 
             Button button = new Button("Rate it");
             button.setOnAction(handlerRate);
+            button.setVisible(visible);
 
             hBox.getChildren().addAll(imageView, label1, label2, label3, label4, rating, label5, button);
 

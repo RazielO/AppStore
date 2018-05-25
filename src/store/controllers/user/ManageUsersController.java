@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import store.controllers.Controller;
 import store.controllers.menu.MenuController;
+import store.controllers.menu.PurchasedController;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.user.UserDAO;
 import store.database.models.user.User;
@@ -45,7 +46,7 @@ public class ManageUsersController extends Controller implements Initializable
 
         for (User user : users)
         {
-            if (user.getId() != MenuController.user.getId())
+            if (!user.getId().equals(MenuController.user.getId()))
             {
                 VBox v = new VBox();
                 v.setAlignment(Pos.CENTER);
@@ -86,14 +87,19 @@ public class ManageUsersController extends Controller implements Initializable
                 else
                     btnAdmin.setText("Make admin user");
 
-                Button btnDelte = new Button("Delete user");
-                btnDelte.setFont(elseFont);
-                btnDelte.setOnAction(delete);
-                btnDelte.setPrefWidth(150);
+                Button btnDelete = new Button("Delete user");
+                btnDelete.setFont(elseFont);
+                btnDelete.setOnAction(delete);
+                btnDelete.setPrefWidth(150);
 
-                vBoxTemp2.getChildren().addAll(btnAdmin, btnDelte);
+                Button btnApps = new Button("Apps owned");
+                btnApps.setFont(elseFont);
+                btnApps.setOnAction(owned);
+                btnApps.setPrefWidth(150);
 
-                hBox.getChildren().addAll(imageView, vBoxTemp, lblEmail, vBoxTemp2);
+                vBoxTemp2.getChildren().addAll(btnAdmin, btnDelete);
+
+                hBox.getChildren().addAll(imageView, vBoxTemp, lblEmail, vBoxTemp2, btnApps);
                 v.getChildren().add(hBox);
                 vBox.getChildren().add(v);
             }
@@ -114,7 +120,7 @@ public class ManageUsersController extends Controller implements Initializable
 
             Optional<ButtonType> confirmation = alert.showAndWait();
 
-            if(confirmation.get() == ButtonType.OK)
+            if(confirmation.isPresent() && confirmation.get() == ButtonType.OK)
             {
                 userDAO.delete(user);
                 changeScene("store/fxml/user/manageUsers.fxml");
@@ -125,7 +131,6 @@ public class ManageUsersController extends Controller implements Initializable
             e.printStackTrace();
         }
     };
-
 
     private EventHandler<ActionEvent> admin = event ->
     {
@@ -146,6 +151,20 @@ public class ManageUsersController extends Controller implements Initializable
                 userDAO.updateWithoutPicture(user);
             }
             changeScene("store/fxml/user/manageUsers.fxml");
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    };
+
+    private EventHandler<ActionEvent> owned = event ->
+    {
+        Label label = (Label) ((Node)event.getSource()).getParent().getChildrenUnmodifiable().get(2);
+        try
+        {
+            PurchasedController.user = userDAO.findByEmail(label.getText());
+            changeScene("store/fxml/menu/purchased.fxml");
         }
         catch (SQLException e)
         {

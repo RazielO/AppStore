@@ -8,10 +8,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import store.controllers.Controller;
-import store.controllers.home.HomeController;
 import store.database.models.app.App;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.user.PurchasedDAO;
+import store.database.models.user.User;
 
 import java.net.URL;
 import java.util.List;
@@ -23,17 +23,20 @@ public class PurchasedController extends Controller implements Initializable
     VBox vBox;
 
     private PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
+    public static User user;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        List<App> apps = purchasedDAO.findAllByUser(MenuController.user);
+        List<App> apps = purchasedDAO.findAllByUser(user);
 
-        if (apps.size() != 0)
-            fillPurchased(apps, vBox);
+        if (apps.size() != 0 && PurchasedController.user == MenuController.user)
+            fillPurchased(apps, vBox, true);
+        else if (apps.size() != 0 && PurchasedController.user != MenuController.user)
+            fillPurchased(apps, vBox, false);
         else
         {
-            Label label = new Label("Oops!\nLooks like you haven't bought anything");
+            Label label = new Label("Oops!\nThere's nothing here");
             label.setFont(new Font("Arial", 18));
             label.setTextAlignment(TextAlignment.CENTER);
             vBox.setAlignment(Pos.CENTER);

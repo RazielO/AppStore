@@ -23,7 +23,7 @@ public class MenuController extends Controller implements Initializable
     @FXML
     MenuButton btnMenu;
 
-    private MenuItem itmLogout, itmAddApp, itmUsers, itmCategories;
+    private MenuItem itmLogout, itmAddApp, itmUsers, itmCategories, itmFeatures;
 
     public static User user = new User();
 
@@ -33,7 +33,7 @@ public class MenuController extends Controller implements Initializable
         init();
     }
 
-    public void init()
+    private void init()
     {
         btnUser.setOnAction(buttonHandler);
         btnHome.setOnAction(event -> changeScene("store/fxml/home/home.fxml"));
@@ -47,17 +47,19 @@ public class MenuController extends Controller implements Initializable
         itmAddApp = new MenuItem("Add app");
         itmUsers = new MenuItem("Manage users");
         itmCategories = new MenuItem("Manage categories");
+        itmFeatures = new MenuItem("Feature apps");
 
         itmAddApp.setOnAction(itemHandler);
         itmLogout.setOnAction(itemHandler);
         itmUsers.setOnAction(itemHandler);
         itmCategories.setOnAction(itemHandler);
+        itmFeatures.setOnAction(itemHandler);
 
         if (user.getId() != null)
         {
             btnMenu.setVisible(true);
             if (user.getAdmin())
-                btnMenu.getItems().addAll(itmAddApp, itmCategories, itmUsers, itmLogout);
+                btnMenu.getItems().addAll(itmAddApp, itmCategories, itmUsers, itmFeatures, itmLogout);
             else
                 btnMenu.getItems().add(itmLogout);
 
@@ -94,7 +96,10 @@ public class MenuController extends Controller implements Initializable
             if (user.getId() == null)
                 alertMessage("You have to login first to see your purchased apps", "Error", Alert.AlertType.ERROR, "Error");
             else
+            {
+                PurchasedController.user = MenuController.user;
                 changeScene("store/fxml/menu/purchased.fxml");
+            }
         else if (event.getSource() == btnMenu)
             alertMessage("btnMenu", "btnMenu", Alert.AlertType.INFORMATION, "btnMenu");
         else if (event.getSource() == btnSearch)
@@ -132,6 +137,10 @@ public class MenuController extends Controller implements Initializable
                 }
                 else if (event.getSource() == itmUsers)
                     changeScene("store/fxml/user/manageUsers.fxml");
+                else if (event.getSource() == itmFeatures)
+                {
+
+                }
             }
             else if (user.getId() != null && !user.getAdmin())
                 alertMessage("You have to be an admin to perform this action", "Error", Alert.AlertType.ERROR, "You cannot access this");

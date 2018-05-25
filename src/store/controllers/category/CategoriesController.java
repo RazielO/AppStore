@@ -44,7 +44,6 @@ public class CategoriesController extends Controller implements Initializable
         {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
-            hBox.setAlignment(Pos.CENTER);
 
             ImageView imageView = new ImageView();
             imageView.setFitHeight(50);
