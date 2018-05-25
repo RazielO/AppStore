@@ -91,6 +91,7 @@ public class EditAppController extends Controller implements Initializable
         btnRemoveLanguage.setOnAction(handler);
         btnCancel.setOnAction(handler);
         btnSave.setOnAction(handler);
+        btnLogo.setOnAction(handler);
     }
 
     private void initLanguages()
@@ -98,11 +99,11 @@ public class EditAppController extends Controller implements Initializable
         for (Language language : languageDAO.fetchAll())
             cmbLanguages.getItems().add(language.getName());
 
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (Language language : app.getLanguages())
-            s = s + language.getName() + "\n";
+            s.append(language.getName()).append("\n");
 
-        lblLanguages.setText(s);
+        lblLanguages.setText(s.toString());
     }
 
     private EventHandler<ActionEvent> handler = event ->
@@ -147,12 +148,12 @@ public class EditAppController extends Controller implements Initializable
 
                 appLanguageDAO.delete(app, language);
 
-                String aux = "";
+                StringBuilder aux = new StringBuilder();
                 for (String s : lblLanguages.getText().split("\n"))
                     if (!s.equals(temp))
-                        aux = aux + s + "\n";
+                        aux.append(s).append("\n");
 
-                lblLanguages.setText(aux);
+                lblLanguages.setText(aux.toString());
             }
         }
         else if (event.getSource() == btnLogo)
