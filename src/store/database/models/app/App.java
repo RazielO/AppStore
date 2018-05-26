@@ -16,6 +16,7 @@ public class App
     private List<Comment> comments;
     private List<File> screenshotsFiles;
     private File logoFile;
+    private boolean featured;
 
     public App()
     {
@@ -229,5 +230,15 @@ public class App
     public void setLogoFile(File logoFile)
     {
         this.logoFile = logoFile;
+    }
+
+    public boolean isFeatured()
+    {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured)
+    {
+        this.featured = featured;
     }
 }

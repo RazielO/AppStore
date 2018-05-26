@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -19,11 +18,7 @@
     <ScrollPane fitToWidth="true">
         <VBox>
             <HBox spacing="100">
-                <ImageView fx:id="image" preserveRatio="true" fitHeight="200" fitWidth="200">
-                    <image>
-                        <Image url="@/store/controllers/resources/spotify.png"/>
-                    </image>
-                </ImageView>
+                <ImageView fx:id="image" preserveRatio="true" fitHeight="200" fitWidth="200"/>
 
                 <VBox spacing="10">
                     <Label text="Name" fx:id="lblName">
@@ -45,7 +40,7 @@
                         </Label>
                     </HBox>
 
-                    <Rating orientation="HORIZONTAL" rating="4.5" disable="true" partialRating="true"/>
+                    <Rating fx:id="rating" orientation="HORIZONTAL" rating="4.5" disable="true" partialRating="true"/>
 
                     <Label text="Downloads" fx:id="lblDownloads">
                         <font>
@@ -82,6 +77,12 @@
                     <Label text="size" fx:id="lblSize"/>
                     <Label text="version" fx:id="lblVersion"/>
                     <Label text="compatibility" fx:id="lblCompatibility"/>
+
+                    <Button fx:id="btnFeature" visible="false">
+                        <font>
+                            <Font name="Arial" size="16"/>
+                        </font>
+                    </Button>
                 </VBox>
 
                 <VBox spacing="10" alignment="CENTER">

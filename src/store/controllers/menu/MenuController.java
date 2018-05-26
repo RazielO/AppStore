@@ -23,7 +23,7 @@ public class MenuController extends Controller implements Initializable
     @FXML
     MenuButton btnMenu;
 
-    private MenuItem itmLogout, itmAddApp, itmUsers, itmCategories, itmFeatures;
+    private MenuItem itmLogout, itmAddApp, itmUsers, itmCategories;
 
     public static User user = new User();
 
@@ -42,24 +42,23 @@ public class MenuController extends Controller implements Initializable
         btnPurchased.setOnAction(buttonHandler);
         btnMenu.setOnAction(buttonHandler);
         btnSearch.setOnAction(buttonHandler);
+        btnFeatured.setOnAction(buttonHandler);
 
         itmLogout = new MenuItem("Logout");
         itmAddApp = new MenuItem("Add app");
         itmUsers = new MenuItem("Manage users");
         itmCategories = new MenuItem("Manage categories");
-        itmFeatures = new MenuItem("Feature apps");
 
         itmAddApp.setOnAction(itemHandler);
         itmLogout.setOnAction(itemHandler);
         itmUsers.setOnAction(itemHandler);
         itmCategories.setOnAction(itemHandler);
-        itmFeatures.setOnAction(itemHandler);
 
         if (user.getId() != null)
         {
             btnMenu.setVisible(true);
             if (user.getAdmin())
-                btnMenu.getItems().addAll(itmAddApp, itmCategories, itmUsers, itmFeatures, itmLogout);
+                btnMenu.getItems().addAll(itmAddApp, itmCategories, itmUsers, itmLogout);
             else
                 btnMenu.getItems().add(itmLogout);
 
@@ -107,6 +106,8 @@ public class MenuController extends Controller implements Initializable
             SearchedController.setSearch(txtSearchBar.getText());
             changeScene("store/fxml/menu/searched.fxml");
         }
+        else if (event.getSource() == btnFeatured)
+            changeScene("store/fxml/menu/featuring.fxml");
     };
 
     private EventHandler<ActionEvent> itemHandler = event ->
@@ -137,10 +138,6 @@ public class MenuController extends Controller implements Initializable
                 }
                 else if (event.getSource() == itmUsers)
                     changeScene("store/fxml/user/manageUsers.fxml");
-                else if (event.getSource() == itmFeatures)
-                {
-
-                }
             }
             else if (user.getId() != null && !user.getAdmin())
                 alertMessage("You have to be an admin to perform this action", "Error", Alert.AlertType.ERROR, "You cannot access this");

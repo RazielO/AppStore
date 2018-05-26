@@ -33,21 +33,8 @@ public class AppDAO
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
-            App app;
-            while (resultSet.next())
-            {
-                Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
+            apps = retrieveApps(resultSet, apps);
 
-                app = new App();
-                app.setId(resultSet.getLong("idApp"));
-                app.setLogo(logo);
-                app.setPublisher(resultSet.getString("publisher"));
-                app.setName(resultSet.getString("name"));
-                app.setPrice(resultSet.getDouble("price"));
-                app.setRating(resultSet.getDouble("rating"));
-
-                apps.add(app);
-            }
             resultSet.close();
             statement.close();
         }
@@ -199,7 +186,8 @@ public class AppDAO
                            "        idCategory = (SELECT idCategory" +
                            "                          FROM category" +
                            "                          WHERE name = ?)," +
-                           "        publisher = ?" +
+                           "        publisher = ?," +
+                           "        featured = ?" +
                            "    WHERE idApp = ?";
 
 
@@ -219,7 +207,8 @@ public class AppDAO
             statement.setString(10, app.getCompatibility());
             statement.setString(11, app.getCategory());
             statement.setString(12, app.getPublisher());
-            statement.setLong(13, app.getId());
+            statement.setBoolean(13, app.isFeatured());
+            statement.setLong(14, app.getId());
 
             statement.execute();
 
@@ -250,7 +239,8 @@ public class AppDAO
                            "        idCategory = (SELECT idCategory" +
                            "                          FROM category" +
                            "                          WHERE name = ?)," +
-                           "         publisher = ?" +
+                           "         publisher = ?," +
+                           "         featured = ?" +
                            "    WHERE idApp = ?";
 
 
@@ -268,7 +258,8 @@ public class AppDAO
             statement.setString(10, app.getCompatibility());
             statement.setString(11, app.getCategory());
             statement.setString(12, app.getPublisher());
-            statement.setLong(13, app.getId());
+            statement.setBoolean(13, app.isFeatured());
+            statement.setLong(14, app.getId());
 
             statement.execute();
 
@@ -286,10 +277,10 @@ public class AppDAO
         try
         {
             String query = "INSERT INTO app" +
-                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory, publisher) " +
+                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory, publisher, featured) " +
                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idCategory" +
                            "                                            FROM category" +
-                           "                                            WHERE name = ?), ?)";
+                           "                                            WHERE name = ?), ?, ?)";
 
             PreparedStatement statement = connection.prepareStatement(query);
 
@@ -307,6 +298,7 @@ public class AppDAO
             statement.setString(10, app.getCompatibility());
             statement.setString(11, app.getCategory());
             statement.setString(12, app.getPublisher());
+            statement.setBoolean(13, app.isFeatured());
 
             statement.execute();
 
@@ -372,6 +364,7 @@ public class AppDAO
                 e.setIdApp(resultSet.getLong("idApp"));
                 e.setRating(resultSet.getDouble("rating"));
                 e.setComment(resultSet.getString("comment"));
+                e.setDate(resultSet.getDate("commentDate"));
 
                 comments.add(e);
             }
@@ -404,6 +397,7 @@ public class AppDAO
                 a.setScreenshots(screenshots);
                 a.setSize(resultSet.getString("size"));
                 a.setVersion(resultSet.getString("version"));
+                a.setFeatured(resultSet.getBoolean("featured"));
             }
         }
         catch (SQLException e)
@@ -492,5 +486,59 @@ public class AppDAO
         }
 
         return apps;
+    }
+
+    public List<App> findFeatured()
+    {
+        List<App> apps = new ArrayList<>();
+
+        try
+        {
+            String query = "SELECT *" +
+                           "    FROM app" +
+                           "    WHERE featured = TRUE";
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            apps = retrieveApps(resultSet, apps);
+
+            statement.close();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return apps;
+    }
+
+    private List<App> retrieveApps(ResultSet resultSet, List<App> list)
+    {
+        App app;
+
+        try
+        {
+            while (resultSet.next())
+            {
+                Image logo = new Image(resultSet.getBlob("logo").getBinaryStream());
+
+                app = new App();
+                app.setId(resultSet.getLong("idApp"));
+                app.setLogo(logo);
+                app.setPublisher(resultSet.getString("publisher"));
+                app.setName(resultSet.getString("name"));
+                app.setPrice(resultSet.getDouble("price"));
+                app.setRating(resultSet.getDouble("rating"));
+
+                list.add(app);
+            }
+            resultSet.close();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

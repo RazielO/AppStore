@@ -160,8 +160,6 @@ public class Controller
                     gridPane.add(vBox, j, i);
                     count = count + 1;
                 }
-
-
     }
 
     protected EventHandler<ActionEvent> handlerBuy = event ->

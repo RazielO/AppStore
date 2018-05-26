@@ -11,8 +11,10 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import org.controlsfx.control.Rating;
 import store.controllers.Controller;
+import store.database.models.app.App;
 import store.database.models.app.Comment;
 import store.database.models.dao.MySQL;
+import store.database.models.dao.app.AppDAO;
 import store.database.models.dao.app.CommentDAO;
 
 import java.net.URL;
@@ -32,6 +34,8 @@ public class RateAppController extends Controller implements Initializable
     TextArea txtComment;
 
     private CommentDAO commentDAO = new CommentDAO(MySQL.getConnection());
+    private AppDAO appDAO = new AppDAO(MySQL.getConnection());
+    private App app;
 
     public static String appName;
     public static Long idApp;
@@ -39,13 +43,18 @@ public class RateAppController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        app = new App();
+        app.setName(appName);
+        app = appDAO.fetch(app);
+
+
         lblName.setText(appName);
 
         btnCancel.setOnAction(event -> closeStage());
         btnAccept.setOnAction(handler);
     }
 
-    EventHandler<ActionEvent> handler = event ->
+    private EventHandler<ActionEvent> handler = event ->
     {
         if (!txtComment.getText().isEmpty())
         {
@@ -54,6 +63,7 @@ public class RateAppController extends Controller implements Initializable
             comment.setIdApp(idApp);
             comment.setIdUser(MenuController.user.getId());
 
+            app.setRating((app.getRating() + rating.getRating()) / (app.getComments().size() + 1));
 
             commentDAO.insert(comment);
 

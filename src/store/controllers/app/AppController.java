@@ -32,13 +32,15 @@ public class AppController extends Controller implements Initializable
     Label lblName, lblPublisher, lblCategory, lblDownloads, lblPrice, lblSize, lblVersion, lblCompatibility,
             lblLanguages, lblFeatures;
     @FXML
-    Button btnBuy, btnEdit, btnDelete;
+    Button btnBuy, btnEdit, btnDelete, btnFeature;
     @FXML
     TextArea txtDescription;
     @FXML
     HBox hboxScreenshot;
     @FXML
     VBox vboxComments;
+    @FXML
+    Rating rating;
 
 
     public static String appName;
@@ -60,11 +62,15 @@ public class AppController extends Controller implements Initializable
         btnEdit.setOnAction(handler);
         btnDelete.setOnAction(handler);
         btnBuy.setOnAction(handlerBuy);
+        btnFeature.setOnAction(handler);
 
         if (MenuController.user.getId() != null && MenuController.user.getAdmin())
         {
+            btnFeature.setText(app.isFeatured() ? "Remove feature" : "Feature");
+
             btnEdit.setVisible(true);
             btnDelete.setVisible(true);
+            btnFeature.setVisible(true);
         }
 
         if (app != null)
@@ -80,17 +86,18 @@ public class AppController extends Controller implements Initializable
             lblSize.setText("Size: " + app.getSize());
             lblVersion.setText("Version: " + app.getVersion());
             txtDescription.setText(app.getDescription());
+            rating.setRating(app.getRating());
 
             if (app.getPrice() != 0)
                 lblPrice.setText("$" + app.getPrice());
             else
                 lblPrice.setText("Free");
 
-            String text = "";
+            StringBuilder text = new StringBuilder();
             for (Language language : app.getLanguages())
-                text = text + language.getName() + "\n";
+                text.append(language.getName()).append("\n");
 
-            lblLanguages.setText(text);
+            lblLanguages.setText(text.toString());
 
             for (Screenshot screenshot : app.getScreenshots())
             {
@@ -132,7 +139,7 @@ public class AppController extends Controller implements Initializable
         }
     }
 
-    EventHandler<ActionEvent> handler = event ->
+    private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnEdit)
         {
@@ -147,7 +154,7 @@ public class AppController extends Controller implements Initializable
             alert.setTitle("Delete app");
             Optional<ButtonType> confirmation = alert.showAndWait();
 
-            if (confirmation.get() == ButtonType.OK)
+            if (confirmation.isPresent() && confirmation.get() == ButtonType.OK)
             {
                 String temp = app.getName();
 
@@ -159,6 +166,12 @@ public class AppController extends Controller implements Initializable
                     alertMessage("It was deleted", "Info", Alert.AlertType.INFORMATION, temp + " was deleted");
                 }
             }
+        }
+        else if (event.getSource() == btnFeature)
+        {
+            app.setFeatured(!app.isFeatured());
+            appDAO.updateWithoutImage(app);
+            btnFeature.setText(app.isFeatured() ? "Remove feature" : "Feature");
         }
     };
 }
