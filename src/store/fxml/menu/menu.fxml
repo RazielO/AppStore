@@ -58,7 +58,7 @@
 
     <Button fx:id="btnUser" text="User" prefHeight="50"/>
 
-    <MenuButton fx:id="btnMenu" prefHeight="50">
+    <MenuButton fx:id="btnMenu" prefHeight="50" styleClass="menu-item">
         <graphic>
             <Icons525View glyphName="MENU" glyphSize="15"/>
         </graphic>

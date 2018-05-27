@@ -26,26 +26,4 @@ public class HomeController extends Controller implements Initializable
     {
         fillApps(appDAO.findAll(), gridPane);
     }
-
-    public static List<App> fillList()
-    {
-        List<App> apps = appDAO.findAll();
-        Long i;
-
-        for (i = Long.valueOf(16); i < 115; i++)
-        {
-            Image image = new Image("store/controllers/resources/spotify.png");
-            App app = new App();
-
-            app.setId(i);
-            app.setLogo(image);
-            app.setName("Name");
-            app.setPublisher("Publisher");
-            app.setPrice(150.00);
-            app.setRating(4.5);
-
-            apps.add(app);
-        }
-        return apps;
-    }
 }

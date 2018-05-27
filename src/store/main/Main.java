@@ -26,6 +26,8 @@ public class Main extends Application
         root.setCenter(getCenterContent());
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("store/resources/css/JMetroLightTheme.css");
+
         this.primaryStage = new Stage();
         this.primaryStage.setTitle("AppStore");
         this.primaryStage.setScene(scene);

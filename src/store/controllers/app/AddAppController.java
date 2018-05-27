@@ -160,7 +160,7 @@ public class AddAppController extends Controller implements Initializable
             changeScene("store/fxml/home/home.fxml");
         else if (event.getSource() == btnLanguage)
         {
-            if (cmbCategory.getSelectionModel().getSelectedItem() != null)
+            if (cmbLanguages.getSelectionModel().getSelectedItem() != null)
             {
                 lblLanguages.setText(lblLanguages.getText() + "\n" + cmbLanguages.getSelectionModel().getSelectedItem());
                 appLanguages.add(languageDAO.search(String.valueOf(cmbLanguages.getSelectionModel().getSelectedItem())));

@@ -66,8 +66,7 @@ public class MenuController extends Controller implements Initializable
             imageView.setFitHeight(25);
             imageView.setFitWidth(25);
 
-            btnUser.setGraphic(imageView);
-            btnUser.setText("");
+            btnUser.setText(user.getUsername());
         }
         else
             btnMenu.setVisible(false);

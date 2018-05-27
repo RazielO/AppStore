@@ -75,6 +75,7 @@ public class Controller
             Parent parent = loader.load();
             loader.setController(controller);
             Scene scene = new Scene(parent, width, height);
+            scene.getStylesheets().add("store/resources/css/JMetroLightTheme.css");
             stage.setScene(scene);
             stage.show();
         }
@@ -90,6 +91,9 @@ public class Controller
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(message);
+
+        alert.getDialogPane().getStylesheets().add("store/resources/css/JMetroLightTheme.css");
+
         alert.show();
     }
 
@@ -292,6 +296,7 @@ public class Controller
             Parent parent = loader.load();
             loader.setController(controller);
             Scene scene = new Scene(parent, width, height);
+            scene.getStylesheets().add("store/resources/css/JMetroLightTheme.css");
             stage.setScene(scene);
             stage.showAndWait();
         }
