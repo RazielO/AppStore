@@ -208,6 +208,7 @@ public class Controller
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("¿Do you want to buy this app?");
             alert.setContentText("Confirm that you want this app");
+            alert.getDialogPane().getStylesheets().add("store/resources/css/JMetroLightTheme.css");
             alert.setTitle("Buy this app");
             Optional<ButtonType> confirmation = alert.showAndWait();
 
@@ -246,7 +247,6 @@ public class Controller
         {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
-            hBox.setAlignment(Pos.CENTER);
 
             ImageView imageView = new ImageView();
             imageView.setFitHeight(75);

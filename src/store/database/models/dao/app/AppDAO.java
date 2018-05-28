@@ -69,7 +69,7 @@ public class AppDAO
         {
             String query = "SELECT *" +
                            "    FROM app " +
-                           "    ORDER BY rating, downloads" +
+                           "    ORDER BY rating DESC, downloads DESC" +
                            "    LIMIT 20";
 
             Statement statement = connection.createStatement();
@@ -446,7 +446,6 @@ public class AppDAO
 
         return a;
     }
-
 
     /**
      * Selects all the apps in the given category

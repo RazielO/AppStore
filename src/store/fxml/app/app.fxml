@@ -17,7 +17,7 @@
 
     <ScrollPane fitToWidth="true">
         <VBox>
-            <HBox spacing="100">
+            <HBox spacing="50">
                 <ImageView fx:id="image" preserveRatio="true" fitHeight="200" fitWidth="200"/>
 
                 <VBox spacing="10">

@@ -69,7 +69,6 @@ public class ManageUsersController extends Controller implements Initializable
 
                 HBox hBox = new HBox();
                 hBox.setSpacing(10);
-                hBox.setAlignment(Pos.CENTER);
 
                 Font usernameFont = new Font("Arial black", 18);
                 Font elseFont = new Font("Arial", 14);
