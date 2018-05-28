@@ -40,6 +40,19 @@ public class RateAppController extends Controller implements Initializable
     public static String appName;
     public static Long idApp;
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Fills some fields to know which app is.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -54,6 +67,10 @@ public class RateAppController extends Controller implements Initializable
         btnAccept.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * If the fields are not empty, the comment is saved in the database
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (!txtComment.getText().isEmpty())
@@ -73,6 +90,9 @@ public class RateAppController extends Controller implements Initializable
             alertMessage("You cannot comment null", "Error", Alert.AlertType.ERROR, "Empty comment field");
     };
 
+    /**
+     * Closes the stage of this window
+     */
     private void closeStage()
     {
         Stage stage = (Stage) btnCancel.getScene().getWindow();

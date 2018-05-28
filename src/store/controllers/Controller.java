@@ -41,6 +41,11 @@ import java.util.Optional;
 
 public class Controller
 {
+    /**
+     * Changes the scene to the given fxml and on top of that, it adds the menu
+     *
+     * @param fxml Fxml file to open
+     */
     protected void changeScene(String fxml)
     {
         BorderPane pane;
@@ -61,12 +66,20 @@ public class Controller
         }
     }
 
+    /**
+     * Opens the given fxml on a new window
+     *
+     * @param title      Title of the new window
+     * @param fxml       Fxml file to open
+     * @param height     Height of the window
+     * @param width      Width of the window
+     * @param controller Controller of the new window
+     */
     protected void openNewWindow(String title, String fxml, Integer height, Integer width, Object controller)
     {
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setResizable(false);
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxml));
 
@@ -85,6 +98,14 @@ public class Controller
         }
     }
 
+    /**
+     * Method to show an alert with the next params
+     *
+     * @param message Message to show on the alert
+     * @param title   Title of the alert
+     * @param type    Type of the alert
+     * @param header  Header of the alert
+     */
     protected void alertMessage(String message, String title, Alert.AlertType type, String header)
     {
         Alert alert = new Alert(type);
@@ -97,6 +118,12 @@ public class Controller
         alert.show();
     }
 
+    /**
+     * Fills the GridPane with the given list of apps
+     *
+     * @param apps     List of apps
+     * @param gridPane GridPane where the apps are going to be
+     */
     protected void fillApps(List<App> apps, GridPane gridPane)
     {
         int i, j, count = 0;
@@ -166,6 +193,10 @@ public class Controller
                 }
     }
 
+    /**
+     * Called when the buy button is pressed.
+     * Adds the transaction to the database
+     */
     protected EventHandler<ActionEvent> handlerBuy = event ->
     {
         if (MenuController.user.getId() == null)
@@ -206,8 +237,6 @@ public class Controller
                         e.printStackTrace();
                 }
             }
-
-
         }
     };
 
@@ -225,16 +254,16 @@ public class Controller
             imageView.setImage(app.getLogo());
 
             Label label1 = new Label(app.getName());
-            Label label2 = new Label(app.getPublisher());
-            Label label3 = new Label(String.valueOf(app.getDownloads()));
-            Label label4 = new Label(app.getVersion());
+            Label label2 = new Label("Publisher\n" + app.getPublisher());
+            Label label3 = new Label("Downloads\n" + String.valueOf(app.getDownloads()));
+            Label label4 = new Label("Version\n" + app.getVersion());
 
             Rating rating = new Rating();
             rating.setOrientation(Orientation.HORIZONTAL);
             rating.setPartialRating(true);
-            rating.setRating(app.getRating());
             rating.setUpdateOnHover(false);
             rating.setRating(app.getRating());
+            rating.setPrefHeight(1);
             rating.setDisable(true);
 
             Label label5 = new Label(String.valueOf(app.getId()));
@@ -250,6 +279,10 @@ public class Controller
         }
     }
 
+    /**
+     * Called when the rate button is pressed.
+     * Opens a new window to rate the app and puts the comment into the database
+     */
     private EventHandler<ActionEvent> handlerRate = event ->
     {
         CommentDAO commentDAO = new CommentDAO(MySQL.getConnection());
@@ -269,9 +302,14 @@ public class Controller
         }
     };
 
+    /**
+     * Configures the file chooser to open the pictures needed
+     *
+     * @param fileChooser FileChooser to set the configuration
+     */
     protected void configureFileChooser(final FileChooser fileChooser)
     {
-        fileChooser.setTitle("View Pictures");
+        fileChooser.setTitle("Pictures");
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
                                        );
@@ -282,6 +320,15 @@ public class Controller
                                                 );
     }
 
+    /**
+     * Opens the given fxml on a new window and waits for a confirmation or cancellation of the operation
+     *
+     * @param title      Title of the new window
+     * @param fxml       Fxml file to open
+     * @param height     Height of the window
+     * @param width      Width of the window
+     * @param controller Controller of the new window
+     */
     protected void openNewWindowShowAndWait(String title, String fxml, Integer height, Integer width, Object controller)
     {
         Stage stage = new Stage();

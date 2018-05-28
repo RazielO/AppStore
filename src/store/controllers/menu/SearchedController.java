@@ -24,6 +24,20 @@ public class SearchedController extends Controller implements Initializable
     private static String search;
     private AppDAO appDAO = new AppDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Fills the screen with the apps with similar names to the one
+     * searched.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -43,7 +57,12 @@ public class SearchedController extends Controller implements Initializable
         }
     }
 
-    public static void setSearch(String search)
+    /**
+     * Called to set the string searched
+     *
+     * @param search String searched
+     */
+    static void setSearch(String search)
     {
         SearchedController.search = search;
     }

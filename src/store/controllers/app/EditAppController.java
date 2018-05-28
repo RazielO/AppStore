@@ -49,16 +49,28 @@ public class EditAppController extends Controller implements Initializable
     private LanguageDAO languageDAO = new LanguageDAO(MySQL.getConnection());
     private AppLanguageDAO appLanguageDAO = new AppLanguageDAO(MySQL.getConnection());
 
-    /*
-    TODO: Add and delete screenshots, if possible
-     */
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         initValues();
     }
 
+    /**
+     * The ComboBox containing the categories is initialized
+     */
     private void initCategory()
     {
         for (Category category : categoryDAO.fetchAll())
@@ -67,6 +79,10 @@ public class EditAppController extends Controller implements Initializable
         cmbCategory.getSelectionModel().select(app.getCategory());
     }
 
+    /**
+     * The values of the app we are trying to edit are set to the elements where we can
+     * edit them
+     */
     private void initValues()
     {
         initCategory();
@@ -94,6 +110,9 @@ public class EditAppController extends Controller implements Initializable
         btnLogo.setOnAction(handler);
     }
 
+    /**
+     * The ComboBox containing the languages is initialized
+     */
     private void initLanguages()
     {
         for (Language language : languageDAO.fetchAll())
@@ -106,6 +125,9 @@ public class EditAppController extends Controller implements Initializable
         lblLanguages.setText(s.toString());
     }
 
+    /**
+     * Called when a button is pressed. It saves, cancels, adds or removes languages or changes logo.
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnCancel)

@@ -13,11 +13,26 @@ public class PurchasedDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public PurchasedDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Inserts a purchase into the database
+     *
+     * @param app App bought
+     * @param user User who bought the app
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     *
+     * @throws SQLException The user has already bought the app
+     */
     public Boolean insert(App app, User user) throws SQLException
     {
         String query = "INSERT INTO purchases" +
@@ -39,6 +54,13 @@ public class PurchasedDAO
         return true;
     }
 
+    /**
+     * Finds the apps a user has bought
+     *
+     * @param user User to search apps
+     *
+     * @return List Returns the apps the given user has bought
+     */
     public List<App> findAllByUser(User user)
     {
         List<App> apps = new ArrayList<>();

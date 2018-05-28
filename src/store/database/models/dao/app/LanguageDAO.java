@@ -10,11 +10,21 @@ public class LanguageDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public LanguageDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Selects all the languages in the database
+     *
+     * @return List Returns all the languages in the database
+     */
     public List<Language> fetchAll()
     {
         String query = "SELECT *" +
@@ -41,6 +51,13 @@ public class LanguageDAO
         return list;
     }
 
+    /**
+     * Searches a language
+     *
+     * @param name Name of the language to search
+     *
+     * @return Language Returns the language with the given name
+     */
     public Language search(String name)
     {
         String query = "SELECT *" +

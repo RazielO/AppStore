@@ -14,6 +14,9 @@ public class MySQL
     private static String dbuser = "root";
     private static String dbpass = "mysql";
 
+    /**
+     * Makes a connection to the database
+     */
     public static void Connect()
     {
         try
@@ -31,6 +34,11 @@ public class MySQL
         }
     }
 
+    /**
+     * Returns the connection to the database
+     *
+     * @return Connection Connection to the database
+     */
     public static Connection getConnection()
     {
         if (conn == null)
@@ -38,6 +46,9 @@ public class MySQL
         return conn;
     }
 
+    /**
+     * Disconnects from the database
+     */
     public static void Disconnect()
     {
         try

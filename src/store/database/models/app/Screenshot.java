@@ -4,6 +4,9 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 
+/**
+ * Model class with an empty constructor and one with params, getters and setters
+ */
 public class Screenshot
 {
     private Long id;

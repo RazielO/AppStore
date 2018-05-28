@@ -36,6 +36,19 @@ public class SignUpController extends Controller implements Initializable
     private User user = null;
     private UserDAO userDAO = new UserDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Sets the handler for the action on buttons
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -45,6 +58,10 @@ public class SignUpController extends Controller implements Initializable
         btnPicture.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * Used to save the user on the database and to open the window to add a credit card
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnAccept)
@@ -103,6 +120,9 @@ public class SignUpController extends Controller implements Initializable
         }
     };
 
+    /**
+     * Closes this window
+     */
     private void closeStage()
     {
         Stage stage = (Stage) btnCancel.getScene().getWindow();

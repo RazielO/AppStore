@@ -13,11 +13,24 @@ public class AppScreenshotDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public AppScreenshotDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Inserts the screenshot and app into the database
+     *
+     * @param app App to get the id
+     * @param screenshot Screenshot to get the id
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean insert(App app, Screenshot screenshot)
     {
         String query;

@@ -2,6 +2,9 @@ package store.database.models.app;
 
 import java.sql.Date;
 
+/**
+ * Model class with an empty constructor and one with params, getters and setters
+ */
 public class Comment
 {
     private String comment, username;

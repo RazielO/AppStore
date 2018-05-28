@@ -30,12 +30,27 @@ public class CategoriesController extends Controller implements Initializable
 
     private CategoryDAO categoryDAO = new CategoryDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed. Calls the fillCategories method
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         fillCategories();
     }
 
+    /**
+     * Called to fill the VBox with the categories in the database
+     */
     private void fillCategories()
     {
         List<Category> categories = categoryDAO.fetchAll();
@@ -62,6 +77,10 @@ public class CategoriesController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Called when a category is pressed, it changes the scene
+     * to the apps on that category
+     */
     private EventHandler<MouseEvent> handler = event ->
     {
         Label label = (Label) ((HBox) event.getSource()).getChildren().get(1);

@@ -34,12 +34,28 @@ public class ManageUsersController extends Controller implements Initializable
 
     private UserDAO userDAO = new UserDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Calls the init method
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         init();
     }
 
+    /**
+     * Fills the screen with all the users in the database
+     */
     private void init()
     {
         List<User> users = userDAO.findAll();
@@ -106,6 +122,10 @@ public class ManageUsersController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Called when the delete button is pressed.
+     * Asks for confirmation and deletes the user from the database.
+     */
     private EventHandler<ActionEvent> delete = event ->
     {
         Label label = (Label) ((Node) event.getSource()).getParent().getParent().getChildrenUnmodifiable().get(2);
@@ -132,6 +152,10 @@ public class ManageUsersController extends Controller implements Initializable
         }
     };
 
+    /**
+     * Called when the admin button is pressed.
+     * Makes a user an admin or a regular user
+     */
     private EventHandler<ActionEvent> admin = event ->
     {
         Label label = (Label) ((Node) event.getSource()).getParent().getParent().getChildrenUnmodifiable().get(2);
@@ -158,6 +182,10 @@ public class ManageUsersController extends Controller implements Initializable
         }
     };
 
+    /**
+     * Called when the owned button is pressed
+     * Changes the scene to the window with all the apps which that user has bought
+     */
     private EventHandler<ActionEvent> owned = event ->
     {
         Label label = (Label) ((Node)event.getSource()).getParent().getChildrenUnmodifiable().get(2);

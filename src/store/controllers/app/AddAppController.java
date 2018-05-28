@@ -34,7 +34,7 @@ public class AddAppController extends Controller implements Initializable
     @FXML
     TextArea txtDescription;
     @FXML
-    ComboBox cmbCategory, cmbLanguages;
+    ComboBox<String> cmbCategory, cmbLanguages;
     @FXML
     Button btnPublish, btnCancel, btnLogo, btnScreenshots, btnLanguage;
     @FXML
@@ -52,6 +52,19 @@ public class AddAppController extends Controller implements Initializable
     private LanguageDAO languageDAO = new LanguageDAO(MySQL.getConnection());
     private CategoryDAO categoryDAO = new CategoryDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed. Adds the languages and categories and sets
+     * the action to the buttons
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -71,6 +84,10 @@ public class AddAppController extends Controller implements Initializable
         btnLanguage.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is clicked.
+     * Adds screenshots and the logo, publishes the app, adds languages and cancels the operation
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnScreenshots)

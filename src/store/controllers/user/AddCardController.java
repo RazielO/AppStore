@@ -10,9 +10,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import store.controllers.Controller;
-import store.database.models.user.Card;
-import store.database.models.dao.user.CardDAO;
 import store.database.models.dao.MySQL;
+import store.database.models.dao.user.CardDAO;
+import store.database.models.user.Card;
 
 import java.net.URL;
 import java.sql.Date;
@@ -27,13 +27,22 @@ public class AddCardController extends Controller implements Initializable
     @FXML
     TextField txtNumber, txtCvv, txtName, txtLastName;
     @FXML
-    ComboBox cmbMonth, cmbYear;
+    ComboBox<String> cmbMonth, cmbYear;
     @FXML
     Button btnAccept, btnCancel;
 
     static Card card;
     private CardDAO cardDAO = new CardDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -42,14 +51,18 @@ public class AddCardController extends Controller implements Initializable
         btnCancel.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * Adds a credit card to the database.
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnAccept)
         {
             Pattern cvvPattern = Pattern.compile("([0-9]{3,4})");
             Pattern numberPattern = Pattern.compile("([0-9]{16,19})");
-            Matcher cvvMatcher = cvvPattern.matcher(txtCvv.getText().replaceAll("\\s+",""));
-            Matcher numberMatcher = numberPattern.matcher(txtNumber.getText().replaceAll("\\s+",""));
+            Matcher cvvMatcher = cvvPattern.matcher(txtCvv.getText().replaceAll("\\s+", ""));
+            Matcher numberMatcher = numberPattern.matcher(txtNumber.getText().replaceAll("\\s+", ""));
 
 
             if (txtLastName.getText().trim().length() == 0 || txtName.getText().length() == 0 ||
@@ -61,9 +74,9 @@ public class AddCardController extends Controller implements Initializable
             else
             {
                 Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.MONTH, Integer.parseInt((String) cmbMonth.getSelectionModel().getSelectedItem()));
+                calendar.set(Calendar.MONTH, Integer.parseInt(cmbMonth.getSelectionModel().getSelectedItem()));
                 calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.YEAR, Integer.parseInt((String) cmbYear.getSelectionModel().getSelectedItem()));
+                calendar.set(Calendar.YEAR, Integer.parseInt(cmbYear.getSelectionModel().getSelectedItem()));
 
                 Date date = new Date(calendar.getTimeInMillis());
                 if (date.after(new Date(Calendar.getInstance().getTimeInMillis())))
@@ -88,12 +101,18 @@ public class AddCardController extends Controller implements Initializable
             closeStage();
     };
 
+    /**
+     * Closes this window
+     */
     private void closeStage()
     {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Initializes the ComboBoxes with the year and month of expiration
+     */
     private void fillComboBoxes()
     {
         Integer aux;

@@ -13,11 +13,21 @@ public class CategoryDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public CategoryDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Selects all the categories from the database
+     *
+     * @return List all the categories
+     */
     public List<Category> fetchAll()
     {
         List<Category> categories = new ArrayList<>();

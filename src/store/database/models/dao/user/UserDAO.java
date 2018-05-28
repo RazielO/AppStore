@@ -17,11 +17,21 @@ public class UserDAO
     private Connection connection;
     private CardDAO cardDAO = new CardDAO(MySQL.getConnection());
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public UserDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Finds all the users in the database
+     *
+     * @return List Returns all the users
+     */
     public List<User> findAll()
     {
         List<User> users = new ArrayList<>();
@@ -65,6 +75,13 @@ public class UserDAO
         return users;
     }
 
+    /**
+     * Deletes a user from the database
+     *
+     * @param user User to delete
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean delete(User user)
     {
         try
@@ -88,6 +105,13 @@ public class UserDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Updates a user
+     *
+     * @param user User to update
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean updateWithPicture(User user)
     {
         try
@@ -131,6 +155,13 @@ public class UserDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Updates a user without picture
+     *
+     * @param user User to update
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean updateWithoutPicture(User user)
     {
         try
@@ -173,6 +204,13 @@ public class UserDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Inserts a user into the database
+     *
+     * @param user User to insert
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean insert(User user)
     {
         try
@@ -208,6 +246,15 @@ public class UserDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Finds a user by username
+     *
+     * @param username Username of the user to find
+     *
+     * @return Found user
+     *
+     * @throws SQLException The user does not exists
+     */
     public User findByUsername(String username) throws SQLException
     {
         User a = null;
@@ -242,6 +289,15 @@ public class UserDAO
         return a;
     }
 
+    /**
+     * Finds a user by email
+     *
+     * @param email Email of the user to find
+     *
+     * @return Found user
+     *
+     * @throws SQLException The user does not exists
+     */
     public User findByEmail(String email) throws SQLException
     {
         User a = null;

@@ -12,9 +12,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import store.controllers.Controller;
 import store.controllers.menu.MenuController;
-import store.database.models.user.User;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.user.UserDAO;
+import store.database.models.user.User;
 
 import java.io.File;
 import java.net.URL;
@@ -40,10 +40,23 @@ public class UserController extends Controller implements Initializable
     @FXML
     HBox hBox;
 
-    File file;
-    Image profile;
-    UserDAO userDAO = new UserDAO(MySQL.getConnection());
+    private File file;
+    private Image profile;
+    private UserDAO userDAO = new UserDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Calls the init method
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -55,6 +68,9 @@ public class UserController extends Controller implements Initializable
         btnEdit.setOnAction(handler);
     }
 
+    /**
+     * Fills the fields with the user information
+     */
     private void init()
     {
         lblUsername.setText(MenuController.user.getUsername());
@@ -68,6 +84,10 @@ public class UserController extends Controller implements Initializable
         txtPassword.setText(MenuController.user.getPassword());
     }
 
+    /**
+     * Called when a button is pressed.
+     * Sets the mode for edit and saves it or cancels the operation. Can change the user picture.
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnEdit)

@@ -1,5 +1,8 @@
 package store.database.models.app;
 
+/**
+ * Model class with an constructor, getters and setters
+ */
 public class Language
 {
     private String id, name;

@@ -2,6 +2,9 @@ package store.database.models.app;
 
 import javafx.scene.image.Image;
 
+/**
+ * Model class with an constructor, getters and setters
+ */
 public class Publisher
 {
     private Long id;

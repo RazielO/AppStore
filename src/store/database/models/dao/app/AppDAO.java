@@ -1,10 +1,10 @@
 package store.database.models.dao.app;
 
+import javafx.scene.image.Image;
 import store.database.models.app.App;
 import store.database.models.app.Comment;
 import store.database.models.app.Language;
 import store.database.models.app.Screenshot;
-import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,11 +16,21 @@ public class AppDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public AppDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Selects all the apps from the database
+     *
+     * @return List all the apps
+     */
     public List<App> findAll()
     {
         List<App> apps = new ArrayList<>();
@@ -46,6 +56,11 @@ public class AppDAO
         return apps;
     }
 
+    /**
+     * Selects the top 20 apps ordered by rating and downloads from the database
+     *
+     * @return List Top 20 apps
+     */
     public List<App> findTop()
     {
         List<App> apps = new ArrayList<>();
@@ -86,6 +101,12 @@ public class AppDAO
         return apps;
     }
 
+    /**
+     * Deletes from the database the given app
+     *
+     * @param app App to delete
+     * @return Boolean Returns whether or not the app was deleted
+     */
     public Boolean delete(App app)
     {
         String query;
@@ -94,11 +115,11 @@ public class AppDAO
 
         try
         {
-            query = "SELECT idScreenshot" +
+            query = "SELECT idscreenshot" +
                     "    FROM screenshot" +
-                    "    WHERE idScreenshot IN (SELECT idScreenshot" +
-                    "                               FROM appScreenshot" +
-                    "                               WHERE idApp = ?)";
+                    "    WHERE idscreenshot IN (SELECT idscreenshot" +
+                    "                               FROM appscreenshot" +
+                    "                               WHERE idapp = ?)";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             ResultSet resultSet = statement.executeQuery();
@@ -107,20 +128,17 @@ public class AppDAO
                 ids.add(resultSet.getLong("idScreenshot"));
 
 
-
-            query = "DELETE FROM appScreenshot" +
-                    "  WHERE idApp = ?";
+            query = "DELETE FROM appscreenshot" +
+                    "  WHERE idapp = ?";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             statement.execute();
 
 
-
-
             for (Long id : ids)
             {
                 query = "DELETE FROM screenshot" +
-                        "  WHERE idScreenshot = ?";
+                        "  WHERE idscreenshot = ?";
 
                 statement = connection.prepareStatement(query);
                 statement.setLong(1, id);
@@ -128,32 +146,29 @@ public class AppDAO
             }
 
 
-
             query = "DELETE FROM purchases" +
-                    "  WHERE idApp = ?";
+                    "  WHERE idapp = ?";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             statement.execute();
 
 
             query = "DELETE FROM comment" +
-                    "  WHERE idApp = ?";
+                    "  WHERE idapp = ?";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             statement.execute();
 
 
-
-            query = "DELETE FROM appLanguage" +
-                    "  WHERE idApp = ?";
+            query = "DELETE FROM applanguage" +
+                    "  WHERE idapp = ?";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             statement.execute();
-
 
 
             query = "DELETE FROM app" +
-                    "  WHERE idApp = ?";
+                    "  WHERE idapp = ?";
             statement = connection.prepareStatement(query);
             statement.setLong(1, app.getId());
             statement.execute();
@@ -168,6 +183,12 @@ public class AppDAO
         return false;
     }
 
+    /**
+     * Updates an app in the database
+     *
+     * @param app App to update
+     * @return Boolean Returns whether or not the app was updated
+     */
     public Boolean update(App app)
     {
         try
@@ -183,12 +204,12 @@ public class AppDAO
                            "        downloads = ?," +
                            "        features = ?," +
                            "        compatibility = ?," +
-                           "        idCategory = (SELECT idCategory" +
+                           "        idcategory = (SELECT idcategory" +
                            "                          FROM category" +
                            "                          WHERE name = ?)," +
                            "        publisher = ?," +
                            "        featured = ?" +
-                           "    WHERE idApp = ?";
+                           "    WHERE idapp = ?";
 
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -221,12 +242,18 @@ public class AppDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Updates an app in the database but without picture
+     *
+     * @param app App to update
+     * @return Boolean Returns whether or not the app was updated
+     */
     public Boolean updateWithoutImage(App app)
     {
         try
         {
             String query = "UPDATE app" +
-                           "    SET idApp = ?," +
+                           "    SET idapp = ?," +
                            "        name = ?," +
                            "        description = ?," +
                            "        version = ?," +
@@ -236,12 +263,12 @@ public class AppDAO
                            "        downloads = ?," +
                            "        features = ?," +
                            "        compatibility = ?," +
-                           "        idCategory = (SELECT idCategory" +
+                           "        idcategory = (SELECT idcategory" +
                            "                          FROM category" +
                            "                          WHERE name = ?)," +
                            "         publisher = ?," +
                            "         featured = ?" +
-                           "    WHERE idApp = ?";
+                           "    WHERE idapp = ?";
 
 
             PreparedStatement statement = connection.prepareStatement(query);
@@ -272,13 +299,19 @@ public class AppDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Inserts an app into the database
+     *
+     * @param app App to insert
+     * @return Boolean Returns whether or not the app was inserted
+     */
     public Boolean insert(App app)
     {
         try
         {
             String query = "INSERT INTO app" +
-                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idCategory, publisher, featured) " +
-                           "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idCategory" +
+                           "    (name, description, version, logo, rating, price, size, downloads, features, compatibility, idcategory, publisher, featured) " +
+                           "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT idcategory" +
                            "                                            FROM category" +
                            "                                            WHERE name = ?), ?, ?)";
 
@@ -311,6 +344,12 @@ public class AppDAO
         return Boolean.FALSE;
     }
 
+    /**
+     * Selects a specific app
+     *
+     * @param app App to search
+     * @return App Returns the app searched
+     */
     public App fetch(App app)
     {
         App a = null;
@@ -408,6 +447,14 @@ public class AppDAO
         return a;
     }
 
+
+    /**
+     * Selects all the apps in the given category
+     *
+     * @param id Id of the category
+     *
+     * @return List Returns all the apps in the given category
+     */
     public List<App> findByCategory(int id)
     {
         List<App> apps = new ArrayList<>();
@@ -416,7 +463,7 @@ public class AppDAO
         {
             String query = "SELECT *" +
                            "    FROM app" +
-                           "    WHERE idCategory = ?";
+                           "    WHERE idcategory = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -449,6 +496,13 @@ public class AppDAO
         return apps;
     }
 
+    /**
+     * Selects all the apps that have a name like the one searched
+     *
+     * @param name Name searched
+     *
+     * @return List Returns all the apps searched
+     */
     public List<App> search(String name)
     {
         List<App> apps = new ArrayList<>();
@@ -488,6 +542,11 @@ public class AppDAO
         return apps;
     }
 
+    /**
+     * Selects all the featured apps
+     *
+     * @return List Returns the featured apps
+     */
     public List<App> findFeatured()
     {
         List<App> apps = new ArrayList<>();
@@ -513,6 +572,13 @@ public class AppDAO
         return apps;
     }
 
+    /**
+     * Fills a list with all the results in the given ResultSet
+     *
+     * @param resultSet ResultSet with the results
+     * @param list List to fill
+     * @return List Returns the filled list
+     */
     private List<App> retrieveApps(ResultSet resultSet, List<App> list)
     {
         App app;

@@ -27,12 +27,27 @@ public class ManageCategoryController extends Controller implements Initializabl
     private CategoryDAO categoryDAO = new CategoryDAO(MySQL.getConnection());
     private AppDAO appDAO = new AppDAO(MySQL.getConnection());
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed. Calls the init method.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         init();
     }
 
+    /**
+     * Initializes the categories that already are in the database
+     */
     private void init()
     {
         for (Category category : categoryDAO.fetchAll())
@@ -42,6 +57,10 @@ public class ManageCategoryController extends Controller implements Initializabl
         btnDelete.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * Deletes a category or opens a new window to add another category
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnAdd)
@@ -67,6 +86,9 @@ public class ManageCategoryController extends Controller implements Initializabl
         }
     };
 
+    /**
+     * Closes the stage of this window
+     */
     private void closeStage()
     {
         Stage stage = (Stage) btnAdd.getScene().getWindow();

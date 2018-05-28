@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Model class with an empty constructor and one with params, getters and setters
+ */
 public class App
 {
     private Long id, downloads;
@@ -25,31 +28,12 @@ public class App
 
     public App(Long id, Image logo, String name, String publisher, Double price, Double rating)
     {
-        this.logo = logo;
-        this.name = name;
-        this.publisher = publisher;
-        this.price = price;
-        this.rating = rating;
-    }
-
-    public App(Long id, Long downloads, String name, String description, String version, String features, String compatibility, String category, String size, String publisher, Double rating, Double price, Image logo, List<Screenshot> screenshots, List<Language> languages, List<Comment> comments)
-    {
         this.id = id;
-        this.downloads = downloads;
-        this.name = name;
-        this.description = description;
-        this.version = version;
-        this.features = features;
-        this.compatibility = compatibility;
-        this.category = category;
-        this.size = size;
-        this.publisher = publisher;
-        this.rating = rating;
-        this.price = price;
         this.logo = logo;
-        this.screenshots = screenshots;
-        this.languages = languages;
-        this.comments = comments;
+        this.name = name;
+        this.publisher = publisher;
+        this.price = price;
+        this.rating = rating;
     }
 
     public Long getId()

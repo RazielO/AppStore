@@ -11,11 +11,24 @@ public class AppLanguageDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public AppLanguageDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Inserts a language to the app
+     *
+     * @param app App to add the language
+     * @param language Language to add to the app
+     *
+     * @return Boolean Returns whether or not the operation was completed
+     */
     public Boolean insert(App app, Language language)
     {
         try
@@ -41,6 +54,15 @@ public class AppLanguageDAO
         return true;
     }
 
+
+    /**
+     * Deletes a language from the app
+     *
+     * @param app App to delete the language
+     * @param language Language to delete to the app
+     *
+     * @return boolean Returns whether or not the operation was completed
+     */
     public boolean delete(App app, Language language)
     {
         String query = "DELETE FROM appLanguage" +

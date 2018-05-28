@@ -30,6 +30,18 @@ public class AddCategoryController extends Controller implements Initializable
     private CategoryDAO categoryDAO = new CategoryDAO(MySQL.getConnection());
     private Image logo;
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -38,6 +50,10 @@ public class AddCategoryController extends Controller implements Initializable
         btnLogo.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * It cancels, adds the logo and adds the category.
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnCancel)

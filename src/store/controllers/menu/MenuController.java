@@ -24,15 +24,30 @@ public class MenuController extends Controller implements Initializable
     MenuButton btnMenu;
 
     private MenuItem itmLogout, itmAddApp, itmUsers, itmCategories;
-
     public static User user = new User();
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     * Calls the init method
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
         init();
     }
 
+    /**
+     * Initializes the menu, sets visible or invisible some options for the admin
+     */
     private void init()
     {
         btnUser.setOnAction(buttonHandler);
@@ -72,6 +87,11 @@ public class MenuController extends Controller implements Initializable
             btnMenu.setVisible(false);
     }
 
+    /**
+     * Called when a button is pressed.
+     * Changes the scene to the user screen, to the top apps, purchased or featured.
+     * Changes the scene to the searched screen.
+     */
     private EventHandler<ActionEvent> buttonHandler = event ->
     {
         if (event.getSource() == btnUser)
@@ -87,9 +107,7 @@ public class MenuController extends Controller implements Initializable
                 changeScene("store/fxml/user/user.fxml");
         }
         else if (event.getSource() == btnTopApps)
-        {
             changeScene("store/fxml/menu/topApps.fxml");
-        }
         else if (event.getSource() == btnPurchased)
             if (user.getId() == null)
                 alertMessage("You have to login first to see your purchased apps", "Error", Alert.AlertType.ERROR, "Error");
@@ -109,6 +127,11 @@ public class MenuController extends Controller implements Initializable
             changeScene("store/fxml/menu/featuring.fxml");
     };
 
+    /**
+     * Called when a MenuItem is clicked.
+     *
+     * Logs out the user, if the user is admin, he can manage apps, users and categories
+     */
     private EventHandler<ActionEvent> itemHandler = event ->
     {
         if (event.getSource() == itmLogout)

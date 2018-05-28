@@ -30,6 +30,18 @@ public class LoginController extends Controller implements Initializable
 
     private UserDAO userDAO;
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -38,6 +50,11 @@ public class LoginController extends Controller implements Initializable
         btnLogin.setOnAction(handler);
     }
 
+    /**
+     * Called when a button is pressed.
+     * If the user exists, it logins.
+     * Opens a new window if the user wants to sign up.
+     */
     private EventHandler<ActionEvent> handler = event ->
     {
         if (event.getSource() == btnLogin)
@@ -84,6 +101,9 @@ public class LoginController extends Controller implements Initializable
         }
     };
 
+    /**
+     * Closes this window
+     */
     private void closeStage()
     {
         Stage stage = (Stage) btnLogin.getScene().getWindow();

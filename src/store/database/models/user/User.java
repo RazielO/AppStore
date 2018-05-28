@@ -5,6 +5,9 @@ import javafx.scene.image.Image;
 import java.io.File;
 import java.sql.Date;
 
+/**
+ * Model class with an empty constructor and one with params, getters and setters
+ */
 public class User
 {
     private Long id = null;

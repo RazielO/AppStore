@@ -2,6 +2,9 @@ package store.database.models.user;
 
 import java.sql.Date;
 
+/**
+ * Model class with an empty constructor and one with params, getters and setters
+ */
 public class Card
 {
     private String number, name, lastName;

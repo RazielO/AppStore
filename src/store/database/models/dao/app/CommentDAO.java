@@ -11,11 +11,23 @@ public class CommentDAO
 {
     Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public CommentDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Inserts the comment into the database
+     *
+     * @param comment Comment to insert into the database
+     *
+     * @return Boolean Returns whether or not the app was updated
+     */
     public boolean insert(Comment comment)
     {
         String query = "INSERT INTO comment" +
@@ -42,38 +54,14 @@ public class CommentDAO
         return false;
     }
 
-    public List<Comment> findAll()
-    {
-        List<Comment> comments = new ArrayList<>();
-
-        String query = "SELECT c.*, u.username username" +
-                       "  FROM comment c INNER JOIN user u ON c.idUser = u.idUser";
-
-        try
-        {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-
-            while(resultSet.next())
-            {
-                Comment e = new Comment();
-                e.setComment(resultSet.getString("comment"));
-                e.setDate(resultSet.getDate("commentDate"));
-                e.setIdApp(resultSet.getLong("idApp"));
-                e.setIdUser(resultSet.getLong("idUser"));
-                e.setRating(resultSet.getDouble("rating"));
-                e.setUsername(resultSet.getString("username"));
-
-                comments.add(e);
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return comments;
-    }
-
+    /**
+     * Returns if a user has already commented the given app
+     *
+     * @param idApp id of the app to search
+     * @param idUser id of the user to search
+     *
+     * @return boolean Returns if the user has commented the app
+     */
     public boolean exists(Long idApp, Long idUser)
     {
         String query = "SELECT *" +

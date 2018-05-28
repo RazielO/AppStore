@@ -8,11 +8,23 @@ public class CardDAO
 {
     private Connection connection;
 
+    /**
+     * Constructor receives a connection to the database
+     *
+     * @param connection connection to a MySQL database
+     */
     public CardDAO(Connection connection)
     {
         this.connection = connection;
     }
 
+    /**
+     * Deletes a credit card from the database
+     *
+     * @param card Card to delete
+     *
+     * @return Returns whether or not the operation was completed
+     */
     public Boolean delete(Card card)
     {
         String query = "DELETE FROM card" +
@@ -30,6 +42,14 @@ public class CardDAO
         return false;
     }
 
+
+    /**
+     * Inserts into the database a credit card
+     *
+     * @param card Card to insert
+     *
+     * @throws SQLException The card already is in the database
+     */
     public void insert(Card card) throws SQLException
     {
         String query = "INSERT INTO card (cardNumber, cvv, name, lastName, expirationDate)" +
