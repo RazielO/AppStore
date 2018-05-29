@@ -184,29 +184,6 @@
                     </font>
                 </Button>
             </HBox>
-
-            <Label prefHeight="2" prefWidth="150" text="Rating" GridPane.columnIndex="0" GridPane.rowIndex="17">
-                <font>
-                    <Font name="Arial" size="18"/>
-                </font>
-            </Label>
-            <TextField fx:id="txtRating" prefHeight="2" prefWidth="350" GridPane.columnIndex="1" GridPane.rowIndex="17">
-                <font>
-                    <Font name="Arial" size="18"/>
-                </font>
-            </TextField>
-
-            <Label prefHeight="2" prefWidth="150" text="Downloads" GridPane.columnIndex="0" GridPane.rowIndex="18">
-                <font>
-                    <Font name="Arial" size="18"/>
-                </font>
-            </Label>
-            <TextField fx:id="txtDownloads" prefHeight="2" prefWidth="350" GridPane.columnIndex="1"
-                       GridPane.rowIndex="18">
-                <font>
-                    <Font name="Arial" size="18"/>
-                </font>
-            </TextField>
         </GridPane>
     </ScrollPane>
 </HBox>

@@ -29,8 +29,23 @@ import java.util.ResourceBundle;
 public class AddAppController extends Controller implements Initializable
 {
     @FXML
-    TextField txtName, txtCompatibility, txtFeature1, txtFeature2, txtFeature3, txtVersion, txtSize,
-            txtPrice, txtRating, txtDownloads, txtPublisher;
+    TextField txtName;
+    @FXML
+    TextField txtCompatibility;
+    @FXML
+    TextField txtFeature1;
+    @FXML
+    TextField txtFeature2;
+    @FXML
+    TextField txtFeature3;
+    @FXML
+    TextField txtVersion;
+    @FXML
+    TextField txtSize;
+    @FXML
+    TextField txtPrice;
+    @FXML
+    TextField txtPublisher;
     @FXML
     TextArea txtDescription;
     @FXML
@@ -137,13 +152,11 @@ public class AddAppController extends Controller implements Initializable
 
                     app.setVersion(txtVersion.getText());
                     app.setName(txtName.getText());
-                    app.setDownloads(Long.parseLong(txtDownloads.getText()));
                     app.setPrice(Double.parseDouble(txtPrice.getText()));
                     app.setCategory(String.valueOf(cmbCategory.getSelectionModel().getSelectedItem()));
                     app.setCompatibility(txtCompatibility.getText());
                     app.setSize(txtSize.getText());
                     app.setDescription(txtDescription.getText());
-                    app.setRating(Double.valueOf(txtRating.getText()));
                     app.setPublisher(txtPublisher.getText());
                     app.setLogoFile(file);
                     app.setScreenshotsFiles(list);

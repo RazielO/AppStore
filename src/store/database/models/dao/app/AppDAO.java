@@ -323,10 +323,10 @@ public class AppDAO
             statement.setString(2, app.getDescription());
             statement.setString(3, app.getVersion());
             statement.setBlob(4, stream);
-            statement.setDouble(5, app.getRating());
+            statement.setDouble(5, 0);
             statement.setDouble(6, app.getPrice());
             statement.setString(7, app.getSize());
-            statement.setLong(8, app.getDownloads());
+            statement.setLong(8, 0);
             statement.setString(9, app.getFeatures());
             statement.setString(10, app.getCompatibility());
             statement.setString(11, app.getCategory());

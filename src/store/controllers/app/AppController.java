@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,8 +20,11 @@ import store.database.models.app.Language;
 import store.database.models.app.Screenshot;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.app.AppDAO;
+import store.database.models.dao.user.PurchasedDAO;
+import store.database.models.dao.user.UserDAO;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -192,6 +196,54 @@ public class AppController extends Controller implements Initializable
             app.setFeatured(!app.isFeatured());
             appDAO.updateWithoutImage(app);
             btnFeature.setText(app.isFeatured() ? "Remove feature" : "Feature");
+        }
+    };
+
+    /**
+     * Called when the buy button is pressed.
+     * Adds the transaction to the database
+     */
+    protected EventHandler<ActionEvent> handlerBuy = event ->
+    {
+        if (MenuController.user.getId() == null)
+            alertMessage("You have to login first to buy an app", "Error", Alert.AlertType.ERROR, "Login first");
+        else
+        {
+            AppDAO appDAO = new AppDAO(MySQL.getConnection());
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("¿Do you want to buy this app?");
+            alert.setContentText("Confirm that you want this app");
+            alert.getDialogPane().getStylesheets().add("store/resources/css/JMetroLightTheme.css");
+            alert.setTitle("Buy this app");
+            Optional<ButtonType> confirmation = alert.showAndWait();
+
+            if (confirmation.isPresent() && confirmation.get() == ButtonType.OK)
+            {
+                Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(2);
+
+                PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
+                UserDAO userDAO = new UserDAO(MySQL.getConnection());
+
+                App app = new App();
+                app.setName(label.getText());
+                app = appDAO.fetch(app);
+
+                try
+                {
+                    purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
+                    alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
+                    app.setDownloads(app.getDownloads() + 1);
+                    appDAO.updateWithoutImage(app);
+                }
+                catch (SQLException e)
+                {
+                    if (e.toString().contains("Duplicate entry"))
+                        alertMessage("You already have this app", "Error", Alert.AlertType.ERROR, "You cannot buy this twice");
+                    else
+                        e.printStackTrace();
+                }
+            }
         }
     };
 }
