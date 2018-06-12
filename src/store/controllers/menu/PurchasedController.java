@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -19,8 +20,7 @@ import java.util.ResourceBundle;
 
 public class PurchasedController extends Controller implements Initializable
 {
-    @FXML
-    VBox vBox;
+    public GridPane gridPane;
 
     private PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
     public static User user;
@@ -44,16 +44,16 @@ public class PurchasedController extends Controller implements Initializable
         List<App> apps = purchasedDAO.findAllByUser(user);
 
         if (apps.size() != 0 && PurchasedController.user == MenuController.user)
-            fillPurchased(apps, vBox, true);
+            fillPurchased(apps, gridPane, true);
         else if (apps.size() != 0 && PurchasedController.user != MenuController.user)
-            fillPurchased(apps, vBox, false);
+            fillPurchased(apps, gridPane, false);
         else
         {
             Label label = new Label("Oops!\nThere's nothing here");
             label.setFont(new Font("Arial", 18));
             label.setTextAlignment(TextAlignment.CENTER);
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().add(label);
+            gridPane.setAlignment(Pos.CENTER);
+            gridPane.getChildren().add(label);
         }
     }
 }

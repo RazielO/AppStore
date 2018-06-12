@@ -21,7 +21,6 @@ import store.database.models.app.Screenshot;
 import store.database.models.dao.MySQL;
 import store.database.models.dao.app.AppDAO;
 import store.database.models.dao.user.PurchasedDAO;
-import store.database.models.dao.user.UserDAO;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -53,16 +52,12 @@ public class AppController extends Controller implements Initializable
     private App app;
 
     /**
-     * Called to initialize a controller after its root element has been
-     * completely processed. Calls the init method.
+     * Called to initialize a controller after its root element has been completely processed. Calls the init method.
      *
-     * @param location
-     * The location used to resolve relative paths for the root object, or
-     * <tt>null</tt> if the location is not known.
-     *
-     * @param resources
-     * The resources used to localize the root object, or <tt>null</tt> if
-     * the root object was not localized.
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  <tt>null</tt> if the location is not known.
+     * @param resources The resources used to localize the root object, or <tt>null</tt> if the root object was not
+     *                  localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -71,8 +66,8 @@ public class AppController extends Controller implements Initializable
     }
 
     /**
-     * Fills all the elements on the app window, also gives the handler to the buttons.
-     * Makes visible or invisible some buttons for admin utilities.
+     * Fills all the elements on the app window, also gives the handler to the buttons. Makes visible or invisible some
+     * buttons for admin utilities.
      */
     private void init()
     {
@@ -160,8 +155,8 @@ public class AppController extends Controller implements Initializable
     }
 
     /**
-     * Called when a button is pressed, this changes the scene to edit, deletes the app or
-     * features or unfeatures the app
+     * Called when a button is pressed, this changes the scene to edit, deletes the app or features or unfeatures the
+     * app
      */
     private EventHandler<ActionEvent> handler = event ->
     {
@@ -200,16 +195,16 @@ public class AppController extends Controller implements Initializable
     };
 
     /**
-     * Called when the buy button is pressed.
-     * Adds the transaction to the database
+     * Called when the buy button is pressed. Adds the transaction to the database
      */
-    protected EventHandler<ActionEvent> handlerBuy = event ->
+    private EventHandler<ActionEvent> handlerBuy = event ->
     {
         if (MenuController.user.getId() == null)
             alertMessage("You have to login first to buy an app", "Error", Alert.AlertType.ERROR, "Login first");
         else
         {
             AppDAO appDAO = new AppDAO(MySQL.getConnection());
+            PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("¿Do you want to buy this app?");
@@ -220,21 +215,16 @@ public class AppController extends Controller implements Initializable
 
             if (confirmation.isPresent() && confirmation.get() == ButtonType.OK)
             {
-                Label label = (Label) ((Node) event.getSource()).getParent().getChildrenUnmodifiable().get(2);
+                Node node = (Node) event.getSource();
+                Label label = (Label) node.getParent().getParent().getChildrenUnmodifiable().get(0);
 
-                PurchasedDAO purchasedDAO = new PurchasedDAO(MySQL.getConnection());
-                UserDAO userDAO = new UserDAO(MySQL.getConnection());
+                App a = new App();
+                a.setName(label.getText());
 
-                App app = new App();
-                app.setName(label.getText());
-                app = appDAO.fetch(app);
-
+                a = appDAO.fetch(a);
                 try
                 {
-                    purchasedDAO.insert(app, userDAO.findByEmail(MenuController.user.getEmail()));
-                    alertMessage("Thanks for buying this app", "New app", Alert.AlertType.INFORMATION, "Congrats! you own this app");
-                    app.setDownloads(app.getDownloads() + 1);
-                    appDAO.updateWithoutImage(app);
+                    purchasedDAO.insert(a, MenuController.user);
                 }
                 catch (SQLException e)
                 {

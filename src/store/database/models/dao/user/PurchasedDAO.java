@@ -26,7 +26,7 @@ public class PurchasedDAO
     /**
      * Inserts a purchase into the database
      *
-     * @param app App bought
+     * @param app  App bought
      * @param user User who bought the app
      *
      * @return Boolean Returns whether or not the operation was completed

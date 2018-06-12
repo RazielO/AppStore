@@ -197,7 +197,7 @@ public class Controller
      * Called when the buy button is pressed.
      * Adds the transaction to the database
      */
-    protected EventHandler<ActionEvent> handlerBuy = event ->
+    private EventHandler<ActionEvent> handlerBuy = event ->
     {
         if (MenuController.user.getId() == null)
             alertMessage("You have to login first to buy an app", "Error", Alert.AlertType.ERROR, "Login first");
@@ -241,12 +241,13 @@ public class Controller
         }
     };
 
-    protected void fillPurchased(List<App> apps, VBox vBox, boolean visible)
+    protected void fillPurchased(List<App> apps, GridPane gridPane, boolean visible)
     {
-        for (App app : apps)
+        int i;
+
+        for (i = 0; i < apps.size(); i++)
         {
-            HBox hBox = new HBox();
-            hBox.setSpacing(10);
+            App app = apps.get(i);
 
             ImageView imageView = new ImageView();
             imageView.setFitHeight(75);
@@ -273,9 +274,14 @@ public class Controller
             button.setOnAction(handlerRate);
             button.setVisible(visible);
 
-            hBox.getChildren().addAll(imageView, label1, label2, label3, label4, rating, label5, button);
-
-            vBox.getChildren().add(hBox);
+            gridPane.add(imageView, 0, i);
+            gridPane.add(label1, 1, i);
+            gridPane.add(label2, 2, i);
+            gridPane.add(label3, 3, i);
+            gridPane.add(label4, 4, i);
+            gridPane.add(rating, 5, i);
+            gridPane.add(label5, 6, i);
+            gridPane.add(button, 7, i);
         }
     }
 
